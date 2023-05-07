@@ -15,7 +15,7 @@
                 "https://*/"
             ],
             "js": [
-                "content.js"
+                "./js/content.js"
             ],
             "css": [
                 "css/style.css"
@@ -27,7 +27,7 @@
         "http://*/"
     ],
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "./js/background.js"
     },
     "action": {
         "default_icon": {
@@ -40,7 +40,7 @@
         "default_popup": "pop_up.html"
     },
     "options_ui": {
-        "page": "index.html",
+        "page": "option.html",
         "open_in_tab": true
     },
     "permissions": [
