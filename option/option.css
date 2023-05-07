@@ -19,7 +19,6 @@ body {
     z-index: 26;
     align-items: center;
     position: relative;
-    z-index: 12;
     display: flex;
     flex-flow: column nowrap;
     width: 100%;

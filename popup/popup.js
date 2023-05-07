@@ -1,8 +1,12 @@
+var loadingBar;
+
 document.addEventListener("DOMContentLoaded", function() {
     var registerButton = document.getElementById("register_btn");
     registerButton.addEventListener('click', function() {
         registerUser();
     });
+    loadingBar = document.getElementById("loading");
+    showLoading();
 });
 
 var registerUser = () => {
@@ -16,3 +20,12 @@ var registerUser = () => {
     });    
 }
 
+var showLoading = () => {
+    if(loadingBar)
+        loadingBar.style.display = 'block';
+}
+
+var hideLoading = () => {
+    if(loadingBar)
+        loadingBar.style.display = 'none';
+}

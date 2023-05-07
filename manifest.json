@@ -9,12 +9,36 @@
         "16": "icons/16.png",
         "32": "icons/32.png"
     },
+    "permissions": [
+        "scripting",
+        "storage",
+        "activeTab",
+        "notifications",
+        "contextMenus"
+    ],
+    "optional_host_permissions": [
+      "*://*/*"
+    ],
+    "action": {
+        "default_icon": {
+            "128": "icons/128.png",
+            "64": "icons/64.png",
+            "16": "icons/16.png",
+            "32": "icons/32.png"
+        },
+        "default_title": "AutoFill",
+        "default_popup": "./popup/popup.html"
+    },
+    "background": {
+        "service_worker": "./js/background.js"
+    },
     "content_scripts": [
         {
             "matches": [
                 "https://*/"
             ],
             "js": [
+                "./js/jquery-1.8.2.min.js",
                 "./js/content.js"
             ],
             "css": [
@@ -26,28 +50,10 @@
         "https://*/",
         "http://*/"
     ],
-    "background": {
-        "service_worker": "./js/background.js"
-    },
-    "action": {
-        "default_icon": {
-            "128": "icons/128.png",
-            "64": "icons/64.png",
-            "16": "icons/16.png",
-            "32": "icons/32.png"
-        },
-        "default_title": "AutoFill",
-        "default_popup": "pop_up.html"
-    },
     "options_ui": {
-        "page": "option.html",
+        "page": "./option/option.html",
         "open_in_tab": true
     },
-    "permissions": [
-        "storage",
-        "tabs",
-        "activeTab"
-    ],
     "web_accessible_resources": [
         {
             "resources": [
