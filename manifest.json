@@ -1,0 +1,60 @@
+{
+    "manifest_version": 3,
+    "name": "AutoFill",
+    "version": "1.0",
+    "description": "Autofill extension for the workday platform",
+    "icons": {
+        "128": "icons/128.png",
+        "64": "icons/64.png",
+        "16": "icons/16.png",
+        "32": "icons/32.png"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*/"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "css": [
+                "css/style.css"
+            ]
+        }
+    ],
+    "host_permissions": [
+        "https://*/",
+        "http://*/"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_icon": {
+            "128": "icons/128.png",
+            "64": "icons/64.png",
+            "16": "icons/16.png",
+            "32": "icons/32.png"
+        },
+        "default_title": "AutoFill"
+    },
+    "options_ui": {
+        "page": "index.html",
+        "open_in_tab": true
+    },
+    "permissions": [
+        "storage",
+        "tabs",
+        "activeTab"
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "icons/*"
+            ],
+            "matches": [
+                "https://*/*"
+            ]
+        }
+    ]
+}
