@@ -1,31 +1,20 @@
-var loadingBar;
+/**
+ * popup.js
+ * created by 8KLancer@gmail.com
+ * 07/05/2023
+ */
 
 document.addEventListener("DOMContentLoaded", function() {
-    var registerButton = document.getElementById("register_btn");
-    registerButton.addEventListener('click', function() {
-        registerUser();
+    var optionButton = document.querySelector("#option_btn");
+    if(!optionButton) return;
+    optionButton.addEventListener('click', function() {
+        showOptionPanel();
     });
-    loadingBar = document.getElementById("loading");
-    showLoading();
 });
 
-var registerUser = () => {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const email = document.getElementById('email').value;
-    
-    const db = openDatabase('user.db', '1.0', 'User database', 2 * 1024 * 1024);
-    db.transaction(function(tx) {
-        tx.executeSql('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, password, email]);
-    });    
-}
-
-var showLoading = () => {
-    if(loadingBar)
-        loadingBar.style.display = 'block';
-}
-
-var hideLoading = () => {
-    if(loadingBar)
-        loadingBar.style.display = 'none';
+/**
+ * funtion to open the option page
+ */
+var showOptionPanel = () => {
+    chrome.runtime.sendMessage({message: "open edit page"});
 }

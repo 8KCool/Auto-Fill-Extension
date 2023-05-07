@@ -67,14 +67,80 @@ body {
     padding: 30px;
 }
 
-#content #content_title{
+#content #content_title {
     color: white;
     font-size: 20px;
     line-height: 1.4em;
-    text-align: center;
     margin: 0;
 }
 
 #content #button_panel {
     margin-top: 20px;
+}
+
+.autofill-btn {
+    margin-top: 20px;
+    background-color: #2f80ed;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-family: Inter, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: normal;
+    line-height: 1.5;
+    outline: none;
+    overflow: hidden;
+    padding: 5px 35px;
+    width: 40%;
+    text-align: center;
+    text-decoration: none;
+    transform: translate3d(0, 0, 0);
+    transition: all .3s;
+    touch-action: manipulation;
+    vertical-align: top;
+    white-space: nowrap;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.autofill-btn:hover {
+    background-color: #1366d6;
+    box-shadow: rgba(0, 0, 0, .05) 0 5px 30px, rgba(0, 0, 0, .05) 0 1px 4px;
+    opacity: 1;
+    transform: translateY(0);
+    transition-duration: .35s;
+}
+
+.autofill-btn:hover:after {
+    opacity: .5;
+}
+
+.autofill-btn:active {
+    box-shadow: rgba(0, 0, 0, .1) 0 3px 6px 0, rgba(0, 0, 0, .1) 0 0 10px 0, rgba(0, 0, 0, .1) 0 1px 4px -1px;
+    transform: translateY(2px);
+    transition-duration: .35s;
+}
+
+.autofill-btn:active:after {
+    opacity: 1;
+}
+
+@media (min-width: 768px) {
+    .autofill-btn {
+        padding: 14px 22px;
+        width: 176px;
+    }
+}
+
+.option-btn {
+    font-size: 14px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 10px !important;
+    margin: auto;
+    text-decoration: underline;
+    cursor: pointer;
 }
