@@ -74,6 +74,11 @@ body {
     margin: 0;
 }
 
+#content_title .option-link {
+    color: aqua;
+    font-weight: bold;
+}
+
 #content #button_panel {
     margin-top: 20px;
 }

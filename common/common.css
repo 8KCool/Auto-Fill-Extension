@@ -1,0 +1,12 @@
+.loading-bar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.divide-boder {
+    border-bottom: 1px solid lightgray;
+}
+

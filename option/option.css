@@ -1,6 +1,12 @@
-/* css header */
-.app-header {
+/* main container css */
+.main-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
     background-color: #f9fafb;
+}
+
+/* ====================================================== Header CSS ===================================================== */
+.app-header {
     padding: 1rem;
     z-index: 26;
     align-items: center;
@@ -26,7 +32,7 @@
 }
 
 .header-icon-img {
-    height: 64px;
+    height: 50px;
 }
 
 .app-header-title {
@@ -36,29 +42,40 @@
 
 .app-header-title .title {
     align-items: center;
-    font-size: 24px;
+    font-size: 20px;
 }
 
-/* main container css */
-.main-container {
-    padding-left: 2rem;
-    padding-right: 2rem;
-    background-color: #f9fafb;
-}
-
+/* ====================================================== Content CSS ===================================================== */
 .main-content {
     background-color: white;
     padding: 20px 2rem;
     max-width: 1300px;
     margin: auto;
-    margin-top: 3vh;
-    
+    margin-top: 1vh;
     --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
     --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    display: none;
 }
 
+.edit-show {
+    display: none;
+}
+
+/* tab css */
 .main-tab-btn {
+    line-height: 1.25rem;
+    background-color: transparent;
+    background-image: none;
+    margin: 0;
+    padding: 0;
+    border: 0 solid #e5e7eb;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.main-tab-btn-before {
     line-height: 1.25rem;
     background-color: transparent;
     background-image: none;
@@ -75,27 +92,41 @@
     font-weight: bold;
 }
 
-.continue_button {
-    margin: auto;
-}
-
-/* Role_info */
-.content-page {
-    display: none;
-    text-align: center;
-
-}
-
-#roles_page {
-    text-align: center;
-    max-width: 700px;
-    margin: auto;
-}
-
+/* continue button */
 .continue-panel {
     text-align: center;
 }
 
+.continue_button {
+    margin: auto;
+}
+
+.chart-box .chart {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 33px;
+    color: #fff;
+}
+
+
+.chart-box font {
+  display: block;
+  text-align: center;
+  color: #fff;
+}
+
+.chart-box canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    width: 100%;
+}
+
+/*  ============================================= end Content css ===========================================  */
 
 
 
@@ -141,17 +172,29 @@
 }
 
 .ft-14 {
-    font-size: 22px;
+    font-size: 14px;
 }
 
-.width-100 {
+.ft-20 {
+    font-size: 20px;
+}
+
+.ft-28 {
+    font-size: 28px;
+}
+
+.w-100 {
     width: 100%;
+}
+
+.w-500 {
+    width: 500px;
 }
 
 .custom-input {
     line-height: 1.25rem;
     font-size: .875rem;
-    box-shadow: var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     padding-left: 0.75rem;
     padding-right: 0.75rem;
     padding-top: 0.5rem;
