@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <title>Autofill</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/jquery-ui.css">
+  <link rel="stylesheet" href="../plugin/bootstrap.min.css">
+  <link rel="stylesheet" href="../plugin/jquery-ui.css">
   <link rel="stylesheet" href="./option.css">
   <link rel="stylesheet" href="../common/common.css">
 </head>
@@ -26,12 +26,48 @@
       </div>
     </div>
     <div class="main-content">
-      
+      <div class="mt-2 mb-6 edit-show divide-boder">
+        <div class="flex justify-between mb-3 overflow-x-auto" aria-hidden="true">
+          <div class="main-tab-btn-before"><svg stroke="currentColor" fill="currentColor" stroke-width="0"
+              viewBox="0 0 24 24" class="inline h-4 md:h-5 w-auto -mt-1" height="1em" width="1em"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill="none" d="M0 0h24v24H0z"></path>
+              <path d="M17.77 3.77L16 2 6 12l10 10 1.77-1.77L9.54 12z"></path>
+            </svg></div>
+          <div class="main-tab-btn active" data="0" id="roles_page_link">Roles</div>
+          <div class="main-tab-btn" data="1" id="personal_page_link">Personal</div>
+          <div class="main-tab-btn" data="2" id="education_page_link">Education</div>
+          <div class="main-tab-btn" data="3" id="experience_page_link">Experience</div>
+          <!-- <div class="main-tab-btn" data="4" id="skills_page_link">Skills</div> -->
+          <!-- <div class="main-tab-btn" data="5" id="resume_page_link">Resume</div> -->
+        </div>
+      </div>
+      <div id="edit_content" class="edit-content px-20">
+        <!-- content -->
+      </div>
+      <!-- end Experience page -->
+      <div class="continue-panel edit-show">
+        <div class="continue-button btn btn-info btn-lg mb-3">
+          <div class="chart-box float-left mr-2">
+            <div class="chart" data-percent="0"><font>0</font></div>
+          </div>
+          Save and Continue
+          <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16"
+            class="ml-2 inline h-4 md:h-5 w-auto" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
+            </path>
+          </svg>
+        </div>
+        <div>
+          <a class="color-gray pointer">SKIP THIS STEP</a>
+        </div>
+      </div>
     </div>
   </div>
 
-  <svg class="loading-bar" data-testid="puff-loader" xmlns="http://www.w3.org/2000/svg" width="75" height="75" stroke="currentColor"
-    viewBox="0 0 44 44">
+  <svg class="loading-bar" data-testid="puff-loader" xmlns="http://www.w3.org/2000/svg" width="75" height="75"
+    stroke="currentColor" viewBox="0 0 44 44">
     <g fill="none" fill-rule="evenodd" stroke-width="2">
       <circle cx="22" cy="22" r="1">
         <animate attributeName="r" begin="0s" calcMode="spline" dur="1.8s" keySplines="0.165, 0.84, 0.44, 1"
@@ -47,7 +83,8 @@
       </circle>
     </g>
   </svg>
-  <script src="../js/jquery-1.8.2.min.js"></script>
+  <script src="../plugin/jquery-1.8.2.min.js"></script>
+  <script src="../plugin/jquery.easypiechart.min.js"></script>
   <script src="./option.js"></script>
   <script src="../common/common.js"></script>
 </body>

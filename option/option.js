@@ -1,61 +1,48 @@
-// /**
-//  * JS for the option page
-//  */
-// var currentOptionIndex = 0;
-// var optionPagesList = ["roles_page", "personal_page", "education_page", "experience_page"];
-
-// $(document).ready(function () {
-//     // $("#education_page").fadeIn();
-//     $("#roles_page").fadeIn();
-//     $(".main-tab-btn").click(function () {
-//         var selectPageIndex = parseInt($(this).attr("data"));
-//         if (currentOptionIndex + 1 == selectPageIndex || selectPageIndex < currentOptionIndex) {
-//             $(".main-tab-btn").removeClass("active");
-//             activeOptionTab(selectPageIndex);
-//         }
-//     })
-
-//     $(".main-tab-btn-before").click(function () {
-//         $(".main-tab-btn").removeClass("active");
-//         currentOptionIndex--;
-//         if (currentOptionIndex < 0) currentOptionIndex = 0;
-//         activeOptionTab(currentOptionIndex);
-//     })
-
-//     $(".continue-button").click(function () {
-//         nextProfilePage();
-//     });
-
-//     hideLoading();
-// })
-
-
-// // change the content page when save button clicked
-// const nextProfilePage = () => {
-//     currentOptionIndex++;
-//     if (currentOptionIndex < optionPagesList.length) {
-//         activeOptionTab(currentOptionIndex);
-//     }
-// }
-
-// // change the content page 
-// const activeOptionTab = (pageIdx) => {
-//     currentOptionIndex = pageIdx;
-//     var pageTag = optionPagesList[pageIdx];
-//     $(".main-tab-btn").removeClass("active");
-//     $("#" + pageTag + "_link").addClass("active");
-//     $(".content-page").hide();
-//     $("#" + pageTag).fadeIn("300");
-// }
-
-
 $(document).ready(() => {
     loadHelloPage();
+    initPieChart();
 });
 
+// function to load the hello page
 const loadHelloPage = () => {
     showLoading();
-    $(".main-content").load('./pages/hello/index.html', () => {
+    $("#edit_content").load('./pages/hello/index.html', () => {
         hideLoading();
+        $("#start_btn").click(function() {
+            loadEditRolesPage();
+        })
     });
-} 
+}
+
+// function to load the roles page
+const loadEditRolesPage = () => {
+    $(".edit-show").show();
+    showLoading();
+    $("#edit_content").load('./pages/roles/index.html', () => {
+        hideLoading();
+        updatePieChart(0);
+        initRolesPage();
+    });
+}
+
+const initRolesPage = () => {
+    var totalCnt = getInputCount();
+    var editCnt = 0;
+    $(".edit-form").change(function() {
+        checkValidateRolesPage(false);
+    })
+}
+
+// validate input form, show progress, control error show
+const checkValidateRolesPage = (errorshow) => {
+    
+}
+
+
+
+
+
+// count of the edit input to save data
+const getInputCount = () => {
+    return $(".edit-form").length;
+}
