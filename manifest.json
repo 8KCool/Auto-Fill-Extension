@@ -30,7 +30,7 @@
         "default_popup": "./popup/popup.html"
     },
     "background": {
-        "service_worker": "./js/background.js"
+        "service_worker": "./content/background.js"
     },
     "content_scripts": [
         {
@@ -38,11 +38,11 @@
                 "https://*/"
             ],
             "js": [
-                "./js/jquery-1.8.2.min.js",
-                "./js/content.js"
+                "./plugin/jquery-1.8.2.min.js",
+                "./content/content.js"
             ],
             "css": [
-                "css/style.css"
+                "./content/style.css"
             ]
         }
     ],
