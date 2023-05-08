@@ -2,8 +2,10 @@
  * JS for the option page
  */
 
-$(document).ready(function() {
-    $(".main-tab-btn").click(function() {
+$(document).ready(function () {
+    $("#education_page").fadeIn();
+    // $("#roles_page").fadeIn();
+    $(".main-tab-btn").click(function () {
         $(".main-tab-btn").removeClass("active");
         $(this).addClass("active");
         activeOptionTab($(this).attr("data"));
@@ -13,5 +15,6 @@ $(document).ready(function() {
 
 // change the content page 
 const activeOptionTab = (pageTag) => {
-
+    $(".content-page").hide();
+    $("#" + pageTag).fadeIn("300");
 }

@@ -32,14 +32,12 @@
               <path fill="none" d="M0 0h24v24H0z"></path>
               <path d="M17.77 3.77L16 2 6 12l10 10 1.77-1.77L9.54 12z"></path>
             </svg></div>
-          <div class="main-tab-btn active" data="Roles">Roles</div>
-          <div class="main-tab-btn" data="Personal">Personal</div>
-          <div class="main-tab-btn" data="Education">Education</div>
-          <div class="main-tab-btn" data="Experience">Experience</div>
-          <div class="main-tab-btn" data="Authorization">Work Authorization</div>
-          <div class="main-tab-btn" data="EEO">EEO</div>
-          <div class="main-tab-btn" data="Skills">Skills</div>
-          <div class="main-tab-btn" data="Resume">Resume</div>
+          <div class="main-tab-btn active" data="roles_page">Roles</div>
+          <div class="main-tab-btn" data="personal_page">Personal</div>
+          <div class="main-tab-btn" data="education_page">Education</div>
+          <div class="main-tab-btn" data="experience_page">Experience</div>
+          <!-- <div class="main-tab-btn" data="skills_page">Skills</div> -->
+          <!-- <div class="main-tab-btn" data="resume_page">Resume</div> -->
         </div>
         <hr>
       </div>
@@ -47,7 +45,7 @@
       <div id="edit_content" class="edit-content px-20">
 
         <!-- start roles page -->
-        <div id="Roles_page">
+        <div id="roles_page" class="content-page">
           <h1 class="mb-12">Let's get started!</h1>
           <h3 class="mb-6">First, let's confirm your first and last name.</h3>
 
@@ -61,49 +59,165 @@
               <input type="text" class="form-control custom-input mt-2" />
             </div>
           </div>
-
-          <div class="continue_button btn btn-info btn-lg mb-3">Save and Continue <svg stroke="currentColor" fill="currentColor"
-              stroke-width="0" viewBox="0 0 16 16" class="ml-2 inline h-4 md:h-5 w-auto" height="1em" width="1em"
-              xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd"
-                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
-              </path>
-            </svg>
-          </div>
-          <div>
-            <a class="color-gray pointer">SKIP THIS STEP</a>
-          </div>
         </div>
         <!-- end roles page -->
+        
         <!-- start personal page -->
-        <div id="Personal_page">
-          <h1 class="mb-12">Let's get Personal!</h1>
-          <h3 class="mb-6">First, let's confirm your first and last name.</h3>
+        <div id="personal_page" class="content-page">
+          <h1 class="mb-12">Please your Personal Info!</h1>
+          <h3 class="mb-6">Once again this data isn't share with anyone. - it is only used to autofill your job applications</h3>
 
-          <div class="row text-left mb-12">
-            <div class="col-sm-6">
-              <h5 class="color-gray">First Name</h5>
-              <input type="text" class="form-control custom-input mt-2" />
-            </div>
-            <div class="col-sm-6">
-              <h5 class="color-gray">Last Name</h5>
-              <input type="text" class="form-control custom-input mt-2" />
+          <div class="row text-left mb-6">
+            <div class="col-sm-12 text-center">
+              <h5 class="color-gray">What's your Email</h5>
+              <input type="email" class="form-control custom-input mt-2" placeholder="...@..."/>
             </div>
           </div>
-
-          <div class="continue_button btn btn-info btn-lg mb-3">Save and Continue <svg stroke="currentColor" fill="currentColor"
-              stroke-width="0" viewBox="0 0 16 16" class="ml-2 inline h-4 md:h-5 w-auto" height="1em" width="1em"
-              xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd"
-                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
-              </path>
-            </svg>
+          <div class="row text-left mb-6">
+            <div class="col-sm-12 text-center">
+              <h5 class="color-gray">What's your date of Birth</h5>
+              <input type="text" class="form-control custom-input mt-2" placeholder="8 May 2023"/>
+            </div>
           </div>
-          <div>
-            <a class="color-gray pointer">SKIP THIS STEP</a>
+          <div class="row text-left mb-6">
+            <div class="col-sm-12 text-center">
+              <h5 class="color-gray">What's your phone Number</h5>
+              <input type="text" class="form-control custom-input mt-2" placeholder="+1"/>
+            </div>
+          </div>
+          <div class="row text-left mb-6">
+            <div class="col-sm-12 text-center">
+              <h5 class="color-gray">Where are you currently located?</h5>
+              <input type="text" class="form-control custom-input mt-2" placeholder="Type city to search"/>
+            </div>
           </div>
         </div>
         <!-- end personal page -->
+        
+        <!-- start personal page -->
+        <div id="education_page" class="content-page">
+          <h1 class="mb-6">Education Information!</h1>
+          <p class="mb-3 ft-14">Submit a school addition request!</p>
+
+          <div class="row text-left mb-12" class="education_panel">
+            <div class="row width-100 col-sm-12">
+              <h3>Education 1</h3>
+            </div>
+            <div class="row width-100 col-sm-12 mb-3">
+              <h5 class="color-gray">School Name</h5>
+              <input type="text" class="form-control custom-input mt-2" placeholder="School Name"/>
+            </div>
+            <div class="row width-100">
+              <div class="col-sm-6 mb-3">
+                <h5 class="color-gray">Major</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="Major"/>
+              </div>
+              <div class="col-sm-4 mb-3">
+                <h5 class="color-gray">Degree Type</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="Degree Type"/>
+              </div>
+              <div class="col-sm-2 mb-3">
+                <h5 class="color-gray">GPA</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="GPA"/>
+              </div>
+            </div>
+            <div class="row width-100 mb-6">
+              <div class="col-sm-4 mb-3">
+                <h5 class="color-gray">Start Month</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="Start Month"/>
+              </div>
+              <div class="col-sm-2 mb-3">
+                <h5 class="color-gray">Start Year</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="Start Year"/>
+              </div>
+              <div class="col-sm-4 mb-3">
+                <h5 class="color-gray">End Month</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="End Month"/>
+              </div>
+              <div class="col-sm-2 mb-3">
+                <h5 class="color-gray">End Year</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="End Year"/>
+              </div>
+            </div>
+            <div class="row width-100 col-sm-12 mb-3">
+              <input type="button" class="form-control btn-success" value="Add More"/>
+            </div>
+          </div>
+        </div>
+        <!-- end personal page -->
+
+        <!-- start Experience page -->
+        <div id="experience_page" class="content-page">
+          <h1 class="">Let's talk about your work experiences.</h1>
+          <p class="mb-3 ft-14">List your experience(s) here!</p>
+
+          <div class="row text-left mb-12" class="experience_panel">
+            <div class="row width-100 col-sm-12">
+              <h3>Work Experience 1</h3>
+            </div>
+            <div class="row width-100">
+              <div class="col-sm-6 mb-3">
+                <h5 class="color-gray">Company</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="Company"/>
+              </div>
+              <div class="col-sm-6 mb-3">
+                <h5 class="color-gray">Location</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="Location"/>
+              </div>
+            </div>
+            <div class="row width-100">
+              <div class="col-sm-6 mb-3">
+                <h5 class="color-gray">Position Title</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="Position Title"/>
+              </div>
+              <div class="col-sm-6 mb-3">
+                <h5 class="color-gray">Experience Title</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="Experience Title"/>
+              </div>
+            </div>
+            <div class="row width-100">
+              <div class="col-sm-4 mb-3">
+                <h5 class="color-gray">Start Month</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="Start Month"/>
+              </div>
+              <div class="col-sm-2 mb-3">
+                <h5 class="color-gray">Start Year</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="Start Year"/>
+              </div>
+              <div class="col-sm-4 mb-3">
+                <h5 class="color-gray">End Month</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="End Month"/>
+              </div>
+              <div class="col-sm-2 mb-3">
+                <h5 class="color-gray">End Year</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="End Year"/>
+              </div>
+            </div>
+            <div class="row width-100 mb-6">
+              <div class="col-sm-12 mb-3">
+                <h5 class="color-gray">Description</h5>
+                <input type="text" class="form-control custom-input mt-2" placeholder="A couple sentences about your role"/>
+              </div>
+            </div>
+            <div class="row width-100 col-sm-12 mb-3">
+              <input type="button" class="form-control btn-success" value="Add More"/>
+            </div>
+          </div>
+        </div>
+        <!-- end Experience page -->
+        <div class="continue-panel">
+          <div class="continue_button btn btn-info btn-lg mb-3">Save and Continue <svg stroke="currentColor"
+              fill="currentColor" stroke-width="0" viewBox="0 0 16 16" class="ml-2 inline h-4 md:h-5 w-auto" height="1em"
+              width="1em" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
+              </path>
+            </svg>
+          </div>
+          <div>
+            <a class="color-gray pointer">SKIP THIS STEP</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

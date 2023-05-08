@@ -1,8 +1,4 @@
-.bg-737474 {
-    background-color: #f9fafb;
-}
-
-
+/* css header */
 .app-header {
     background-color: #f9fafb;
     padding: 1rem;
@@ -20,7 +16,7 @@
     height: 100%;
     display: flex;
     flex-flow: row nowrap;
-    width: 100%;
+    /* max-width: 1300px; */
 }
 
 .header-icon {
@@ -43,6 +39,7 @@
     font-size: 24px;
 }
 
+/* main container css */
 .main-container {
     padding-left: 2rem;
     padding-right: 2rem;
@@ -51,8 +48,11 @@
 
 .main-content {
     background-color: white;
-    margin-top: 3vh;
     padding: 20px 2rem;
+    max-width: 1300px;
+    margin: auto;
+    margin-top: 3vh;
+    
     --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
     --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -75,6 +75,41 @@
     font-weight: bold;
 }
 
+.continue_button {
+    margin: auto;
+}
+
+/* Role_info */
+.content-page {
+    display: none;
+    text-align: center;
+
+}
+
+#roles_page {
+    text-align: center;
+    max-width: 700px;
+    margin: auto;
+}
+
+.continue-panel {
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* const */
+.bg-737474 {
+    background-color: #f9fafb;
+}
 
 .justify-between {
     justify-content: space-between;
@@ -82,13 +117,6 @@
 
 .flex {
     display: flex;
-}
-
-/* Role_info */
-#Roles_page {
-    text-align: center;
-    max-width: 700px;
-    margin: auto;
 }
 
 .px-20 {
@@ -110,6 +138,14 @@
 
 .pointer {
     cursor: pointer;
+}
+
+.ft-14 {
+    font-size: 22px;
+}
+
+.width-100 {
+    width: 100%;
 }
 
 .custom-input {
