@@ -32,20 +32,22 @@
               <path fill="none" d="M0 0h24v24H0z"></path>
               <path d="M17.77 3.77L16 2 6 12l10 10 1.77-1.77L9.54 12z"></path>
             </svg></div>
-          <div class="main-tab-btn active">Roles</div>
-          <div class="main-tab-btn">Personal</div>
-          <div class="main-tab-btn">Education</div>
-          <div class="main-tab-btn">Experience</div>
-          <div class="main-tab-btn">Work Authorization</div>
-          <div class="main-tab-btn">EEO</div>
-          <div class="main-tab-btn">Skills</div>
-          <div class="main-tab-btn">Resume</div>
+          <div class="main-tab-btn active" data="Roles">Roles</div>
+          <div class="main-tab-btn" data="Personal">Personal</div>
+          <div class="main-tab-btn" data="Education">Education</div>
+          <div class="main-tab-btn" data="Experience">Experience</div>
+          <div class="main-tab-btn" data="Authorization">Work Authorization</div>
+          <div class="main-tab-btn" data="EEO">EEO</div>
+          <div class="main-tab-btn" data="Skills">Skills</div>
+          <div class="main-tab-btn" data="Resume">Resume</div>
         </div>
         <hr>
       </div>
 
       <div id="edit_content" class="edit-content px-20">
-        <div id="Role_info">
+
+        <!-- start roles page -->
+        <div id="Roles_page">
           <h1 class="mb-12">Let's get started!</h1>
           <h3 class="mb-6">First, let's confirm your first and last name.</h3>
 
@@ -72,8 +74,39 @@
             <a class="color-gray pointer">SKIP THIS STEP</a>
           </div>
         </div>
+        <!-- end roles page -->
+        <!-- start personal page -->
+        <div id="Personal_page">
+          <h1 class="mb-12">Let's get Personal!</h1>
+          <h3 class="mb-6">First, let's confirm your first and last name.</h3>
+
+          <div class="row text-left mb-12">
+            <div class="col-sm-6">
+              <h5 class="color-gray">First Name</h5>
+              <input type="text" class="form-control custom-input mt-2" />
+            </div>
+            <div class="col-sm-6">
+              <h5 class="color-gray">Last Name</h5>
+              <input type="text" class="form-control custom-input mt-2" />
+            </div>
+          </div>
+
+          <div class="continue_button btn btn-info btn-lg mb-3">Save and Continue <svg stroke="currentColor" fill="currentColor"
+              stroke-width="0" viewBox="0 0 16 16" class="ml-2 inline h-4 md:h-5 w-auto" height="1em" width="1em"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z">
+              </path>
+            </svg>
+          </div>
+          <div>
+            <a class="color-gray pointer">SKIP THIS STEP</a>
+          </div>
+        </div>
+        <!-- end personal page -->
       </div>
     </div>
   </div>
   <script src="../js/jquery-1.8.2.min.js"></script>
+  <script src="./option.js"></script>
 </body>
