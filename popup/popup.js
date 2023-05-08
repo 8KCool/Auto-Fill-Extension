@@ -5,7 +5,7 @@
  */
 
 document.addEventListener("DOMContentLoaded", function() {
-    var optionButton = document.querySelector("#option_btn");
+    var optionButton = document.querySelector(".option-link");
     if(!optionButton) return;
     optionButton.addEventListener('click', function() {
         showOptionPanel();
