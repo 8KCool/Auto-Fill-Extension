@@ -79,21 +79,41 @@ const RolesPage = {
 
 // function to load the Personal page
 const PersonalPage = {
-    init: () => {
+    init: async () => {
         $(".edit-show").show();
         showLoading();
-        $("#edit_content").load('./pages/personal/index.html', () => {
-            hideLoading();
-            checkValidatePage(false);
+        $("#edit_content").load('./pages/personal/index.html', async () => {
             refreshTabButton();
-            customSelect();
+            await PersonalPage.initCountrySelectData();
+            customSelect.init("country-select");
+            checkValidatePage(false);
+            hideLoading();
             $(".edit-form").change(function () {
                 checkValidatePage(false);
             })
         });
     },
+
     checkValidate: () => {
         return true;
+    },
+
+    // get all country names and set data
+    initCountrySelectData: async () => {
+        await $.getJSON("https://trial.mobiscroll.com/content/countries.json", function (resp) {
+            // var countries = [];
+            for (var i = 0; i < resp.length; ++i) {
+                var country = resp[i];
+                // countries.push({ text: country.text, value: country.value });
+                $(".country-select .options-container").append(
+                    `<div class="option">
+                        <img class="mr-2" width="24" height="16" src="https://img.mobiscroll.com/demos/flags/${country.value}.png" />
+                        <input type="radio" class="radio mt-1" data-id="${country.text.toLowerCase()}" name="category" />
+                        <label for="${country.text.toLowerCase()}">${country.text}</label>
+                    </div>`
+                );
+            }
+        });
     }
 }
 
@@ -226,7 +246,7 @@ const checkValidatePage = (errorshow) => {
             $(element).removeClass("validate-error");
             editedCount++;
         }
-    })
+    });
 
     if (totalCount == 0) {
         updatePieChart(100);
@@ -242,7 +262,7 @@ const refreshTabButton = () => {
             if ($(element).hasClass("active")) {
                 $(element).removeClass("active");
                 $(element).addClass("edited");
-                $(element).click(function() {
+                $(element).click(function () {
                     tabPageLoad(element);
                 });
             }

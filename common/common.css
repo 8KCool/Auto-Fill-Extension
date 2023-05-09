@@ -79,7 +79,7 @@
     max-height: 240px;
     opacity: 1;
     overflow-y: scroll;
-    margin-top: 46px;
+    margin-top: 86px;
   }
   
   .select-box-panel .options-container.active + .selected::after {
@@ -95,7 +95,7 @@
   
   .select-box-panel .options-container::-webkit-scrollbar-thumb {
     background: #525861;
-    border-radius: 0 8px 8px 0;
+    border-radius: 8px 8px 8px 8px;
   }
   
   .select-box-panel .option,
