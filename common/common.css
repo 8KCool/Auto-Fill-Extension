@@ -143,3 +143,7 @@
   }
   /* ====================== end custom select ====================== */
   
+  /* custom radio button */
+  .radio-value.active {
+    background-color: #28a745;
+  }

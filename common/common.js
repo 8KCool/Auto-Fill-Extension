@@ -74,3 +74,28 @@ const customSelect = {
     },
 
 }
+
+const initSelectYear = () => {
+    var yearMax = 2033;
+    var yearMin = 1930;
+    for(var i = yearMax; i > yearMin; i --) {
+        $(".select-year").append(`
+            <option value=${i}>${i}</option>
+        `);
+    }
+}
+
+const customRadioButton = {
+    init: (id) => {
+        $(`#${id} .radio-value`).click(function() {
+            value = $(this).attr("value");
+            $(`#${id}`).attr('data', value);
+            $(`#${id} .radio-value`).removeClass("active");
+            $(this).addClass("active");
+        });
+    },
+
+    getValue: (id) => {
+        return $(`#${id}`).attr('data');
+    }
+}

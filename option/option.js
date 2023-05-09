@@ -52,7 +52,7 @@ const loadHelloPage = () => {
     $("#edit_content").load('./pages/hello/index.html', () => {
         hideLoading();
         $("#start_btn").click(function () {
-            RolesPage.init();
+            EEOPage.init();
         })
     });
 }
@@ -66,7 +66,7 @@ const RolesPage = {
             hideLoading();
             checkValidatePage(false);
             refreshTabButton();
-            $(".edit-form").change(function () {
+            $(".validate-input-form").change(function () {
                 checkValidatePage(false);
             })
         });
@@ -88,7 +88,7 @@ const PersonalPage = {
             customSelect.init("country-select");
             checkValidatePage(false);
             hideLoading();
-            $(".edit-form").change(function () {
+            $(".validate-input-form").change(function () {
                 checkValidatePage(false);
             })
         });
@@ -123,10 +123,11 @@ const EducationPage = {
         $(".edit-show").show();
         showLoading();
         $("#edit_content").load('./pages/education/index.html', () => {
-            hideLoading();
             checkValidatePage(false);
             refreshTabButton();
-            $(".edit-form").change(function () {
+            initSelectYear();
+            hideLoading();
+            $(".validate-input-form").change(function () {
                 checkValidatePage(false);
             })
         });
@@ -142,10 +143,11 @@ const ExperiencePage = {
         $(".edit-show").show();
         showLoading();
         $("#edit_content").load('./pages/experience/index.html', () => {
-            hideLoading();
             checkValidatePage(false);
+            initSelectYear();
             refreshTabButton();
-            $(".edit-form").change(function () {
+            hideLoading();
+            $(".validate-input-form").change(function () {
                 checkValidatePage(false);
             })
         });
@@ -161,10 +163,12 @@ const WorkauthPage = {
         $(".edit-show").show();
         showLoading();
         $("#edit_content").load('./pages/workauth/index.html', () => {
-            hideLoading();
             checkValidatePage(false);
             refreshTabButton();
-            $(".edit-form").change(function () {
+            customRadioButton.init("auth_us_radio");
+            customRadioButton.init("visa_radio");
+            hideLoading();
+            $(".validate-input-form").change(function () {
                 checkValidatePage(false);
             })
         });
@@ -180,10 +184,14 @@ const EEOPage = {
         $(".edit-show").show();
         showLoading();
         $("#edit_content").load('./pages/EEO/index.html', () => {
-            hideLoading();
             checkValidatePage(false);
             refreshTabButton();
-            $(".edit-form").change(function () {
+            customRadioButton.init("disability_radio");
+            customRadioButton.init("vertain_radio");
+            customRadioButton.init("lgbtq_radio");
+            customRadioButton.init("gender_radio");
+            hideLoading();
+            $(".validate-input-form").change(function () {
                 checkValidatePage(false);
             })
         });
@@ -202,7 +210,7 @@ const SkillsPage = {
             hideLoading();
             checkValidatePage(false);
             refreshTabButton();
-            $(".edit-form").change(function () {
+            $(".validate-input-form").change(function () {
                 checkValidatePage(false);
             })
         });
@@ -221,7 +229,7 @@ const ResumePage = {
             hideLoading();
             checkValidatePage(false);
             refreshTabButton();
-            $(".edit-form").change(function () {
+            $(".validate-input-form").change(function () {
                 checkValidatePage(false);
             })
         });
@@ -234,7 +242,7 @@ const ResumePage = {
 
 // validate input form, show progress, control error show
 const checkValidatePage = (errorshow) => {
-    var elemInputs = $("input.edit-form");
+    var elemInputs = $("input.validate-input-form");
     var inputCount = elemInputs.length;
     var totalCount = inputCount;
     var editedCount = 0;
