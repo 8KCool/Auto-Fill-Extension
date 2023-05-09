@@ -9,15 +9,41 @@ $(document).ready(() => {
             nextPageLoad();
         }
     });
+
+    $(".main-tab-btn-before").click(() => {
+        prevPageLoad();
+    });
 });
 
 
 // function to load the next page when continue button clicked
 const nextPageLoad = () => {
+    var oldpage = currentPageIndex;
     currentPageIndex++;
-    if (currentPageIndex < pageList.length) {
-        pageList[currentPageIndex].init();
+    if (currentPageIndex >= pageList.length) {
+        currentPageIndex = pageList.length - 1;
     }
+    if (currentPageIndex != oldpage)
+        pageList[currentPageIndex].init();
+}
+
+// function to load the next page when continue button clicked
+const prevPageLoad = () => {
+    var oldpage = currentPageIndex;
+    currentPageIndex--;
+    if (currentPageIndex < 0) {
+        currentPageIndex = 0;
+    }
+    if (currentPageIndex != oldpage)
+        pageList[currentPageIndex].init();
+}
+
+// function to load the next page when continue button clicked
+const tabPageLoad = (element) => {
+    var oldpage = currentPageIndex;
+    currentPageIndex = parseInt($(element).attr("data"));
+    if (currentPageIndex != oldpage)
+        pageList[currentPageIndex].init();
 }
 
 // function to load the hello page
@@ -212,13 +238,17 @@ const checkValidatePage = (errorshow) => {
 
 const refreshTabButton = () => {
     $(".main-tab-btn").each((index, element) => {
-        if (!$(element).hasClass("selected")) {
+        if (!$(element).hasClass("edited")) {
             if ($(element).hasClass("active")) {
                 $(element).removeClass("active");
-                $(element).addClass("selected");
+                $(element).addClass("edited");
+                $(element).click(function() {
+                    tabPageLoad(element);
+                });
             }
         }
     })
+    $(".main-tab-btn").removeClass("active");
     $("#main-tab-button-" + currentPageIndex).addClass("active");
 }
 

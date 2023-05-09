@@ -89,10 +89,10 @@
 
 .main-tab-btn.active {
     color: green;
-    font-weight: bold;
+    font-weight: bold !important;
 }
 
-.main-tab-btn.selected {
+.main-tab-btn.edited {
     color: green;
     font-weight: 500;
 }
