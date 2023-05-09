@@ -25,20 +25,45 @@ const updatePieChart = (pro) => {
     $('.continue-button .chart').data('easyPieChart').update(pro);
 }
 
-$('input[name="radio-btn"]').wrap('<div class="radio-btn"><i></i></div>');
-$(".radio-btn").on('click', function () {
-    var _this = $(this),
-        block = _this.parent().parent();
-    block.find('input:radio').attr('checked', false);
-    block.find(".radio-btn").removeClass('checkedRadio');
-    _this.addClass('checkedRadio');
-    _this.find('input:radio').attr('checked', true);
-});
-$('input[name="check-box"]').wrap('<div class="check-box"><i></i></div>');
-$.fn.toggleCheckbox = function () {
-    this.attr('checked', !this.attr('checked'));
+const customSelect = () => {
+
+    const selected = document.querySelector(".selected");
+    const optionsContainer = document.querySelector(".options-container");
+    const searchBox = document.querySelector(".search-box input");
+
+    const optionsList = document.querySelectorAll(".option");
+
+    selected.addEventListener("click", () => {
+        optionsContainer.classList.toggle("active");
+
+        searchBox.value = "";
+        filterList("");
+
+        if (optionsContainer.classList.contains("active")) {
+            searchBox.focus();
+        }
+    });
+
+    optionsList.forEach(o => {
+        o.addEventListener("click", () => {
+            selected.innerHTML = o.querySelector("label").innerHTML;
+            optionsContainer.classList.remove("active");
+        });
+    });
+
+    searchBox.addEventListener("keyup", function (e) {
+        filterList(e.target.value);
+    });
+
+    const filterList = searchTerm => {
+        searchTerm = searchTerm.toLowerCase();
+        optionsList.forEach(option => {
+            let label = option.firstElementChild.nextElementSibling.innerText.toLowerCase();
+            if (label.indexOf(searchTerm) != -1) {
+                option.style.display = "block";
+            } else {
+                option.style.display = "none";
+            }
+        });
+    };
 }
-$('.check-box').on('click', function () {
-    $(this).find(':checkbox').toggleCheckbox();
-    $(this).toggleClass('checkedBox');
-});

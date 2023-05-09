@@ -15,7 +15,6 @@ $(document).ready(() => {
     });
 });
 
-
 // function to load the next page when continue button clicked
 const nextPageLoad = () => {
     var oldpage = currentPageIndex;
@@ -87,6 +86,7 @@ const PersonalPage = {
             hideLoading();
             checkValidatePage(false);
             refreshTabButton();
+            customSelect();
             $(".edit-form").change(function () {
                 checkValidatePage(false);
             })

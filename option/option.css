@@ -222,6 +222,8 @@
     max-width: 800px;
 }
 
+/* form css */
+
 .custom-input {
     line-height: 1.25rem;
     font-size: .875rem;
@@ -233,6 +235,18 @@
     border-width: 1px;
     border-color: rgb(209 213 219/var(--tw-border-opacity));
     border-radius: 0.375rem;
+}
+
+.custom-select {
+    line-height: 1.2rem;
+    font-size: .875rem;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    /* padding-top: 0.5rem; */
+    /* padding-bottom: 0.5rem; */
+    border-width: 1px;
+    border-color: rgb(209 213 219/var(--tw-border-opacity));
+    border-radius: 0.375rem;
+    margin-top: 0px !important;
 }
 
 .validate-error {
