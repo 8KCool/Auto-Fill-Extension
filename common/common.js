@@ -28,7 +28,7 @@ const updatePieChart = (pro) => {
 // tag: className
 const customSelect = {
     value: "",
-    init: (tag, callback) => { 
+    init: (tag, callback) => {
         customSelect.value = "";
         const selected = document.querySelector(`.${tag} .selected`);
         const optionsContainer = document.querySelector(`.${tag} .options-container`);
@@ -79,7 +79,7 @@ const customSelect = {
 const initSelectYear = () => {
     var yearMax = 2033;
     var yearMin = 1930;
-    for(var i = yearMax; i > yearMin; i --) {
+    for (var i = yearMax; i > yearMin; i--) {
         $(".select-year").append(`
             <option value=${i}>${i}</option>
         `);
@@ -89,7 +89,7 @@ const initSelectYear = () => {
 // id: id tag
 const customRadioButton = {
     init: (id) => {
-        $(`#${id} .radio-value`).click(function() {
+        $(`#${id} .radio-value`).click(function () {
             value = $(this).attr("value");
             $(`#${id}`).attr('data', value);
             $(`#${id} .radio-value`).removeClass("active");
@@ -104,7 +104,7 @@ const customRadioButton = {
     setValue: (id, value) => {
         var radios = $(`#${id} .radio-value`);
         radios.each((index, element) => {
-            if($(element).attr("value") == value) {
+            if ($(element).attr("value") == value) {
                 $(element).addClass("active");
             } else {
                 $(element).removeClass("active");
@@ -113,3 +113,19 @@ const customRadioButton = {
         $(`#${id}`).attr('data', value);
     }
 }
+
+const readUploadedFileAsText = (inputFile) => {
+    const temporaryFileReader = new FileReader();
+
+    return new Promise((resolve, reject) => {
+        temporaryFileReader.onerror = () => {
+            temporaryFileReader.abort();
+            reject(new DOMException("Problem parsing input file."));
+        };
+
+        temporaryFileReader.onload = () => {
+            resolve(temporaryFileReader.result);
+        };
+        temporaryFileReader.readAsText(inputFile);
+    });
+};

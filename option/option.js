@@ -3,15 +3,24 @@ var pageName = ["Roles", "Personal", "Education", "Experience", "Workauth", "EEO
 
 
 $(document).ready(() => {
+    // clear storage function
+    // chrome.storage.local.clear(function() {
+    //     var error = chrome.runtime.lastError;
+    //     if (error) {
+    //         console.error(error);
+    //     }
+    //     // do something more
+    // });
     loadHelloPage();
     initPieChart();
 
     $(".continue-button").click(async () => {
         if (checkValidatePage(true) && pageList[currentPageIndex].checkValidate()) {
-            showLoading();
             saveCurrentData(function (state) {
-                if (state)
+                if (state && currentPageIndex != pageName.length - 1){
+                    showLoading();
                     nextPageLoad();
+                }
                 hideLoading();
             });
         }
@@ -94,6 +103,7 @@ const RolesPage = {
         $(".edit-show").show();
         showLoading();
         $("#edit_content").load('./pages/roles/index.html', async () => {
+            updatePieChart(0);
             await RolesPage.getCurrentSavedData();
             checkValidatePage(false);
             refreshTabButton();
@@ -115,7 +125,7 @@ const RolesPage = {
     getCurrentSavedData: async () => {
         const key = pageName[currentPageIndex];
         const result = await chrome.storage.local.get(key);
-        if (chrome.runtime.lastError){
+        if (chrome.runtime.lastError) {
             console.log('Error getting');
         }
         else if (result && result.Roles) {
@@ -132,11 +142,11 @@ const PersonalPage = {
         $(".edit-show").show();
         showLoading();
         $("#edit_content").load('./pages/personal/index.html', async () => {
-            refreshTabButton();
+            updatePieChart(0);
             await PersonalPage.initCountrySelectData();
             customSelect.init("country-select");
-
             await PersonalPage.getCurrentSavedData();
+            refreshTabButton();
             checkValidatePage(false);
             hideLoading();
             $(".validate-input-form").change(function () {
@@ -165,7 +175,7 @@ const PersonalPage = {
                 );
             }
         });
-    }, 
+    },
     getSaveData: () => {
         return {
             email: $("#email").val(),
@@ -181,7 +191,7 @@ const PersonalPage = {
     getCurrentSavedData: async () => {
         const key = pageName[currentPageIndex];
         const result = await chrome.storage.local.get(key);
-        if (chrome.runtime.lastError){
+        if (chrome.runtime.lastError) {
             console.log('Error getting');
         }
         else if (result && result.Personal) {
@@ -204,6 +214,7 @@ const EducationPage = {
         $(".edit-show").show();
         showLoading();
         $("#edit_content").load('./pages/education/index.html', async () => {
+            updatePieChart(0);
             initSelectYear();
             await EducationPage.getCurrentSavedData();
             checkValidatePage(false);
@@ -232,7 +243,7 @@ const EducationPage = {
     getCurrentSavedData: async () => {
         const key = pageName[currentPageIndex];
         const result = await chrome.storage.local.get(key);
-        if (chrome.runtime.lastError){
+        if (chrome.runtime.lastError) {
             console.log('Error getting');
         }
         else if (result && result.Education) {
@@ -255,6 +266,7 @@ const ExperiencePage = {
         $(".edit-show").show();
         showLoading();
         $("#edit_content").load('./pages/experience/index.html', async () => {
+            updatePieChart(0);
             initSelectYear();
             await ExperiencePage.getCurrentSavedData();
             refreshTabButton();
@@ -284,7 +296,7 @@ const ExperiencePage = {
     getCurrentSavedData: async () => {
         const key = pageName[currentPageIndex];
         const result = await chrome.storage.local.get(key);
-        if (chrome.runtime.lastError){
+        if (chrome.runtime.lastError) {
             console.log('Error getting');
         }
         else if (result && result.Experience) {
@@ -308,6 +320,7 @@ const WorkauthPage = {
         $(".edit-show").show();
         showLoading();
         $("#edit_content").load('./pages/workauth/index.html', async () => {
+            updatePieChart(0);
             customRadioButton.init("auth_us_radio");
             customRadioButton.init("visa_radio");
             await WorkauthPage.getCurrentSavedData();
@@ -331,7 +344,7 @@ const WorkauthPage = {
     getCurrentSavedData: async () => {
         const key = pageName[currentPageIndex];
         const result = await chrome.storage.local.get(key);
-        if (chrome.runtime.lastError){
+        if (chrome.runtime.lastError) {
             console.log('Error getting');
         }
         else if (result && result.Workauth) {
@@ -348,6 +361,7 @@ const EEOPage = {
         $(".edit-show").show();
         showLoading();
         $("#edit_content").load('./pages/EEO/index.html', async () => {
+            updatePieChart(0);
             customRadioButton.init("disability_radio");
             customRadioButton.init("vertain_radio");
             customRadioButton.init("lgbtq_radio");
@@ -376,7 +390,7 @@ const EEOPage = {
     getCurrentSavedData: async () => {
         const key = pageName[currentPageIndex];
         const result = await chrome.storage.local.get(key);
-        if (chrome.runtime.lastError){
+        if (chrome.runtime.lastError) {
             console.log('Error getting');
         }
         else if (result && result.EEO) {
@@ -396,6 +410,7 @@ const SkillsPage = {
         $(".edit-show").show();
         showLoading();
         $("#edit_content").load('./pages/skills/index.html', async () => {
+            updatePieChart(0);
             checkValidatePage(false);
             refreshTabButton();
             // await SkillsPage.initSkillsData();
@@ -425,6 +440,31 @@ const SkillsPage = {
                 );
             }
         });
+    },
+    // todo
+    getSaveData: () => {
+        return {
+            disability: customRadioButton.getValue("disability_radio"),
+            vertain: customRadioButton.getValue("vertain_radio"),
+            lgbtq: customRadioButton.getValue("lgbtq_radio"),
+            gender: customRadioButton.getValue("gender_radio"),
+            ethnicity: $("#ethnicity").val(),
+        }
+    },
+    getCurrentSavedData: async () => {
+        const key = pageName[currentPageIndex];
+        const result = await chrome.storage.local.get(key);
+        if (chrome.runtime.lastError) {
+            console.log('Error getting');
+        }
+        else if (result && result.EEO) {
+            var eeoData = result.EEO;
+            customRadioButton.setValue("disability_radio", eeoData['disability']);
+            customRadioButton.setValue("vertain_radio", eeoData['vertain']);
+            customRadioButton.setValue("lgbtq_radio", eeoData['lgbtq']);
+            customRadioButton.setValue("gender_radio", eeoData['gender']);
+            $("#ethnicity").val(eeoData['ethnicity']);
+        }
     }
 }
 
@@ -433,17 +473,114 @@ const ResumePage = {
     init: () => {
         $(".edit-show").show();
         showLoading();
-        $("#edit_content").load('./pages/resume/index.html', () => {
-            hideLoading();
+        $("#edit_content").load('./pages/resume/index.html', async () => {
+            updatePieChart(0);
+            await ResumePage.getCurrentSavedData();
             checkValidatePage(false);
             refreshTabButton();
+            hideLoading();
             $(".validate-input-form").change(function () {
                 checkValidatePage(false);
-            })
+            });
+
+            $(".custom-file-input").on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
         });
     },
     checkValidate: () => {
         return true;
+    },
+    getSaveData: () => {
+        // get file data
+        var resumeFileData = {};
+        if ($("#customResumeFile").prop('files').length > 0) {
+            var resume_file = $("#customResumeFile").prop('files')[0];
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                resumeFileData["name"] = resume_file.name;
+                resumeFileData["type"] = resume_file.type;
+                resumeFileData["size"] = resume_file.size;
+                resumeFileData["lastModified"] = resume_file.lastModified;
+                resumeFileData["lastModifiedDate"] = resume_file.lastModifiedDate;
+                resumeFileData["text"] = e.target.result;
+                console.log(resumeFileData);
+                chrome.storage.local.set({ "resumeFile": resumeFileData }, function () {
+                    console.log("Resume saved");
+                });
+            };
+            reader.readAsDataURL(resume_file);
+        }
+
+        var letterFileData = {};
+        if ($("#customCoverLetterFile").prop('files').length > 0) {
+            var letter_file = $("#customCoverLetterFile").prop('files')[0];
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                var fileData = {}
+                letterFileData["name"] = letter_file.name;
+                letterFileData["type"] = letter_file.type;
+                letterFileData["size"] = letter_file.size;
+                letterFileData["lastModified"] = letter_file.lastModified;
+                letterFileData["lastModifiedDate"] = letter_file.lastModifiedDate;
+                letterFileData["text"] = e.target.result;
+                console.log(letterFileData);
+                chrome.storage.local.set({ "coverLetterFile": letterFileData }, function () {
+                    console.log("coverLetter saved");
+                });
+            };
+            reader.readAsDataURL(letter_file);
+        }
+
+        return {
+            linkedin_url: $("#linkedin_url").val(),
+            github_url: $("#github_url").val(),
+            portfolio_url: $("#portfolio_url").val(),
+            other_url: $("#other_url").val(),
+        }
+    },
+    getCurrentSavedData: async () => {
+        const key = pageName[currentPageIndex];
+        const result = await chrome.storage.local.get(key);
+        if (chrome.runtime.lastError) {
+            console.log('Error getting');
+        }
+        else if (result && result.Resume) {
+            var resumeData = result.Resume;
+            $("#linkedin_url").val(resumeData['linkedin_url']);
+            $("#github_url").val(resumeData['github_url']);
+            $("#portfolio_url").val(resumeData['portfolio_url']);
+            $("#other_url").val(resumeData['other_url']);
+        }
+
+        debugger;
+         // Load resume
+        chrome.storage.local.get("resumeFile", function (result) {
+            var resumeFile = result.resumeFile;
+            if (resumeFile) {
+                // var editprofileform = document.forms["editprofileform"];
+                var dataTransfer = new DataTransfer();
+                dataTransfer.items.add( new File([resumeFile["text"]], resumeFile["name"], {type: "application/pdf"}) );
+                // editprofileform["inputresume"].files = dataTransfer.files;
+                $("#customResumeFile").files = dataTransfer.files;
+                $("#customResumeFileLabel").addClass("selected").html(resumeFile["name"]);
+            }
+        });
+        // Load cover letter
+        chrome.storage.local.get("coverLetterFile", function (result) {
+            var coverLetterFile = result.coverLetterFile;
+            if (coverLetterFile) {
+                // var editprofileform = document.forms["editprofileform"];
+                var dataTransfer = new DataTransfer();
+                dataTransfer.items.add( new File([coverLetterFile['text']], coverLetterFile["name"], {type: "application/pdf"}) );
+                // editprofileform["inputcoverletter"].files = dataTransfer.files;
+                $("#customCoverLetterFile").files = dataTransfer.files;
+                $("#customCoverLetterFileLabel").addClass("selected").html(coverLetterFile["name"]);
+            }
+        });
     }
 }
 
