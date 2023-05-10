@@ -25,9 +25,10 @@ const updatePieChart = (pro) => {
     $('.continue-button .chart').data('easyPieChart').update(pro);
 }
 
+// tag: className
 const customSelect = {
     value: "",
-    init: (tag, callback) => {
+    init: (tag, callback) => { 
         customSelect.value = "";
         const selected = document.querySelector(`.${tag} .selected`);
         const optionsContainer = document.querySelector(`.${tag} .options-container`);
@@ -85,6 +86,7 @@ const initSelectYear = () => {
     }
 }
 
+// id: id tag
 const customRadioButton = {
     init: (id) => {
         $(`#${id} .radio-value`).click(function() {

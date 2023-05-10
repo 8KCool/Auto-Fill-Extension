@@ -1,12 +1,25 @@
 var currentPageIndex = 0;
 
 $(document).ready(() => {
+
+
     loadHelloPage();
     initPieChart();
 
+    // create indexDB
+    sendMessageToBackground("db", { type: "create" }, function (result) {
+        console.log(result);
+    });
+    
     $(".continue-button").click(() => {
         if (checkValidatePage(true) && pageList[currentPageIndex].checkValidate()) {
-            nextPageLoad();
+            saveCurrentData(function (response) {
+                if (response.status == "success")
+                    nextPageLoad();
+                else {
+                    // save fail
+                }
+            });
         }
     });
 
@@ -14,6 +27,24 @@ $(document).ready(() => {
         prevPageLoad();
     });
 });
+
+// function to send evetn to the background.js
+const sendMessageToBackground = async (message, payload, callback) => {
+    const response = await chrome.runtime.sendMessage({
+        message: message,
+        payload: payload
+    });
+    callback(response);
+}
+
+// function  to save the current Page data into Index DB Google
+const saveCurrentData = () => {
+    var savedData = pageList[currentPageIndex].getSavedData();
+    console.log(savedData);
+    sendMessageToBackground("db", payload, function () {
+
+    });
+}
 
 // function to load the next page when continue button clicked
 const nextPageLoad = () => {
@@ -52,7 +83,7 @@ const loadHelloPage = () => {
     $("#edit_content").load('./pages/hello/index.html', () => {
         hideLoading();
         $("#start_btn").click(function () {
-            EEOPage.init();
+            RolesPage.init();
         })
     });
 }
@@ -73,8 +104,15 @@ const RolesPage = {
     },
     checkValidate: () => {
         return true;
-    }
-
+    },
+    getSavedData: () => {
+        return returnData = {
+            "type": "insert",
+            "tableName": "Roles",
+            "firstName": $("#first_name_input").val(),
+            "lastName": $("#last_name_input").val(),
+        }
+    },
 }
 
 // function to load the Personal page
@@ -206,10 +244,12 @@ const SkillsPage = {
     init: () => {
         $(".edit-show").show();
         showLoading();
-        $("#edit_content").load('./pages/skills/index.html', () => {
-            hideLoading();
+        $("#edit_content").load('./pages/skills/index.html', async () => {
             checkValidatePage(false);
             refreshTabButton();
+            // await SkillsPage.initSkillsData();
+            // customSelect.init("skills-select"); 
+            hideLoading();
             $(".validate-input-form").change(function () {
                 checkValidatePage(false);
             })
@@ -217,6 +257,23 @@ const SkillsPage = {
     },
     checkValidate: () => {
         return true;
+    },
+    // get all country names and set data
+    initSkillsData: async () => {
+        await $.getJSON("https://trial.mobiscroll.com/content/countries.json", function (resp) {
+            // var countries = [];
+            for (var i = 0; i < resp.length; ++i) {
+                var country = resp[i];
+                // countries.push({ text: country.text, value: country.value });
+                $(".skills-select .options-container").append(
+                    `<div class="option">
+                        <img class="mr-2" width="24" height="16" src="https://img.mobiscroll.com/demos/flags/${country.value}.png" />
+                        <input type="radio" class="radio mt-1" data-id="${country.text.toLowerCase()}" name="category" />
+                        <label for="${country.text.toLowerCase()}">${country.text}</label>
+                    </div>`
+                );
+            }
+        });
     }
 }
 
