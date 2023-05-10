@@ -99,5 +99,17 @@ const customRadioButton = {
 
     getValue: (id) => {
         return $(`#${id}`).attr('data');
+    },
+
+    setValue: (id, value) => {
+        var radios = $(`#${id} .radio-value`);
+        radios.each((index, element) => {
+            if($(element).attr("value") == value) {
+                $(element).addClass("active");
+            } else {
+                $(element).removeClass("active");
+            }
+        });
+        $(`#${id}`).attr('data', value);
     }
 }

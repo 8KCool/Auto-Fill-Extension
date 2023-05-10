@@ -1,24 +1,18 @@
 var currentPageIndex = 0;
+var pageName = ["Roles", "Personal", "Education", "Experience", "Workauth", "EEO", "Skills", "Resume"];
+
 
 $(document).ready(() => {
-
-
     loadHelloPage();
     initPieChart();
 
-    // create indexDB
-    sendMessageToBackground("db", { type: "create" }, function (result) {
-        console.log(result);
-    });
-    
-    $(".continue-button").click(() => {
+    $(".continue-button").click(async () => {
         if (checkValidatePage(true) && pageList[currentPageIndex].checkValidate()) {
-            saveCurrentData(function (response) {
-                if (response.status == "success")
+            showLoading();
+            saveCurrentData(function (state) {
+                if (state)
                     nextPageLoad();
-                else {
-                    // save fail
-                }
+                hideLoading();
             });
         }
     });
@@ -28,21 +22,27 @@ $(document).ready(() => {
     });
 });
 
-// function to send evetn to the background.js
-const sendMessageToBackground = async (message, payload, callback) => {
-    const response = await chrome.runtime.sendMessage({
-        message: message,
-        payload: payload
-    });
-    callback(response);
-}
-
 // function  to save the current Page data into Index DB Google
-const saveCurrentData = () => {
-    var savedData = pageList[currentPageIndex].getSavedData();
-    console.log(savedData);
-    sendMessageToBackground("db", payload, function () {
-
+const saveCurrentData = (callback) => {
+    var savedData = pageList[currentPageIndex].getSaveData();
+    let option;
+    switch (currentPageIndex) {
+        case 0: option = { "Roles": savedData }; break;
+        case 1: option = { "Personal": savedData }; break;
+        case 2: option = { "Education": savedData }; break;
+        case 3: option = { "Experience": savedData }; break;
+        case 4: option = { "Workauth": savedData }; break;
+        case 5: option = { "EEO": savedData }; break;
+        case 6: option = { "Skills": savedData }; break;
+        case 7: option = { "Resume": savedData }; break;
+    }
+    chrome.storage.local.set(option, () => {
+        if (chrome.runtime.lastError) {
+            console.log('Error setting');
+            callback(false);
+        }
+        console.log('Stored: ' + savedData);
+        callback(true);
     });
 }
 
@@ -93,10 +93,11 @@ const RolesPage = {
     init: () => {
         $(".edit-show").show();
         showLoading();
-        $("#edit_content").load('./pages/roles/index.html', () => {
-            hideLoading();
+        $("#edit_content").load('./pages/roles/index.html', async () => {
+            await RolesPage.getCurrentSavedData();
             checkValidatePage(false);
             refreshTabButton();
+            hideLoading();
             $(".validate-input-form").change(function () {
                 checkValidatePage(false);
             })
@@ -105,14 +106,24 @@ const RolesPage = {
     checkValidate: () => {
         return true;
     },
-    getSavedData: () => {
-        return returnData = {
-            "type": "insert",
-            "tableName": "Roles",
-            "firstName": $("#first_name_input").val(),
-            "lastName": $("#last_name_input").val(),
+    getSaveData: () => {
+        return {
+            firstName: $("#first_name_input").val(),
+            lastName: $("#last_name_input").val()
         }
     },
+    getCurrentSavedData: async () => {
+        const key = pageName[currentPageIndex];
+        const result = await chrome.storage.local.get(key);
+        if (chrome.runtime.lastError){
+            console.log('Error getting');
+        }
+        else if (result && result.Roles) {
+            var rolesData = result.Roles;
+            $("#first_name_input").val(rolesData["firstName"]);
+            $("#last_name_input").val(rolesData["lastName"]);
+        }
+    }
 }
 
 // function to load the Personal page
@@ -124,6 +135,8 @@ const PersonalPage = {
             refreshTabButton();
             await PersonalPage.initCountrySelectData();
             customSelect.init("country-select");
+
+            await PersonalPage.getCurrentSavedData();
             checkValidatePage(false);
             hideLoading();
             $(".validate-input-form").change(function () {
@@ -152,6 +165,36 @@ const PersonalPage = {
                 );
             }
         });
+    }, 
+    getSaveData: () => {
+        return {
+            email: $("#email").val(),
+            address_line: $("#address_line").val(),
+            city: $("#city").val(),
+            state: $("#state").val(),
+            postal_code: $("#postal_code").val(),
+            phone_number: $("#phone_number").val(),
+            phone_code: $("#phone_code").val(),
+            phone_extension: $("#phone_extension").val(),
+        }
+    },
+    getCurrentSavedData: async () => {
+        const key = pageName[currentPageIndex];
+        const result = await chrome.storage.local.get(key);
+        if (chrome.runtime.lastError){
+            console.log('Error getting');
+        }
+        else if (result && result.Personal) {
+            var personData = result.Personal;
+            $("#email").val(personData['email']);
+            $("#address_line").val(personData['address_line']);
+            $("#city").val(personData['city']);
+            $("#state").val(personData['state']);
+            $("#postal_code").val(personData['postal_code']);
+            $("#phone_number").val(personData['phone_number']);
+            $("#phone_code").val(personData['phone_code']);
+            $("#phone_extension").val(personData['phone_extension']);
+        }
     }
 }
 
@@ -160,10 +203,11 @@ const EducationPage = {
     init: () => {
         $(".edit-show").show();
         showLoading();
-        $("#edit_content").load('./pages/education/index.html', () => {
+        $("#edit_content").load('./pages/education/index.html', async () => {
+            initSelectYear();
+            await EducationPage.getCurrentSavedData();
             checkValidatePage(false);
             refreshTabButton();
-            initSelectYear();
             hideLoading();
             $(".validate-input-form").change(function () {
                 checkValidatePage(false);
@@ -172,6 +216,36 @@ const EducationPage = {
     },
     checkValidate: () => {
         return true;
+    },
+    getSaveData: () => {
+        return {
+            school_name: $("#school_name").val(),
+            major: $("#major").val(),
+            degree_type: $("#degree_type").val(),
+            gpa: $("#gpa").val(),
+            edu_start_month: $("#edu_start_month").val(),
+            edu_start_year: $("#edu_start_year").val(),
+            edu_end_month: $("#edu_end_month").val(),
+            edu_end_year: $("#edu_end_year").val(),
+        }
+    },
+    getCurrentSavedData: async () => {
+        const key = pageName[currentPageIndex];
+        const result = await chrome.storage.local.get(key);
+        if (chrome.runtime.lastError){
+            console.log('Error getting');
+        }
+        else if (result && result.Education) {
+            var educationData = result.Education;
+            $("#school_name").val(educationData['school_name']);
+            $("#major").val(educationData['major']);
+            $("#degree_type").val(educationData['degree_type']);
+            $("#gpa").val(educationData['gpa']);
+            $("#edu_start_month").val(educationData['edu_start_month']);
+            $("#edu_start_year").val(educationData['edu_start_year']);
+            $("#edu_end_month").val(educationData['edu_end_month']);
+            $("#edu_end_year").val(educationData['edu_end_year']);
+        }
     }
 }
 
@@ -180,10 +254,11 @@ const ExperiencePage = {
     init: () => {
         $(".edit-show").show();
         showLoading();
-        $("#edit_content").load('./pages/experience/index.html', () => {
-            checkValidatePage(false);
+        $("#edit_content").load('./pages/experience/index.html', async () => {
             initSelectYear();
+            await ExperiencePage.getCurrentSavedData();
             refreshTabButton();
+            checkValidatePage(false);
             hideLoading();
             $(".validate-input-form").change(function () {
                 checkValidatePage(false);
@@ -192,6 +267,38 @@ const ExperiencePage = {
     },
     checkValidate: () => {
         return true;
+    },
+    getSaveData: () => {
+        return {
+            experience_company: $("#experience_company").val(),
+            experience_location: $("#experience_location").val(),
+            experience_position_title: $("#experience_position_title").val(),
+            experience_title: $("#experience_title").val(),
+            experience_start_month: $("#experience_start_month").val(),
+            experience_start_year: $("#experience_start_year").val(),
+            experience_end_month: $("#experience_end_month").val(),
+            experience_end_year: $("#experience_end_year").val(),
+            experience_description: $("#experience_description").val(),
+        }
+    },
+    getCurrentSavedData: async () => {
+        const key = pageName[currentPageIndex];
+        const result = await chrome.storage.local.get(key);
+        if (chrome.runtime.lastError){
+            console.log('Error getting');
+        }
+        else if (result && result.Experience) {
+            var experienceData = result.Experience;
+            $("#experience_company").val(experienceData['experience_company']);
+            $("#experience_location").val(experienceData['experience_location']);
+            $("#experience_position_title").val(experienceData['experience_position_title']);
+            $("#experience_title").val(experienceData['experience_title']);
+            $("#experience_start_month").val(experienceData['experience_start_month']);
+            $("#experience_start_year").val(experienceData['experience_start_year']);
+            $("#experience_end_month").val(experienceData['experience_end_month']);
+            $("#experience_end_year").val(experienceData['experience_end_year']);
+            $("#experience_description").val(experienceData['experience_description']);
+        }
     }
 }
 
@@ -200,11 +307,12 @@ const WorkauthPage = {
     init: () => {
         $(".edit-show").show();
         showLoading();
-        $("#edit_content").load('./pages/workauth/index.html', () => {
-            checkValidatePage(false);
-            refreshTabButton();
+        $("#edit_content").load('./pages/workauth/index.html', async () => {
             customRadioButton.init("auth_us_radio");
             customRadioButton.init("visa_radio");
+            await WorkauthPage.getCurrentSavedData();
+            checkValidatePage(false);
+            refreshTabButton();
             hideLoading();
             $(".validate-input-form").change(function () {
                 checkValidatePage(false);
@@ -213,6 +321,24 @@ const WorkauthPage = {
     },
     checkValidate: () => {
         return true;
+    },
+    getSaveData: () => {
+        return {
+            auth_us: customRadioButton.getValue("auth_us_radio"),
+            visa: customRadioButton.getValue("visa_radio")
+        }
+    },
+    getCurrentSavedData: async () => {
+        const key = pageName[currentPageIndex];
+        const result = await chrome.storage.local.get(key);
+        if (chrome.runtime.lastError){
+            console.log('Error getting');
+        }
+        else if (result && result.Workauth) {
+            var workAuthData = result.Workauth;
+            customRadioButton.setValue("auth_us_radio", workAuthData['auth_us']);
+            customRadioButton.setValue("visa_radio", workAuthData['visa']);
+        }
     }
 }
 
@@ -221,13 +347,14 @@ const EEOPage = {
     init: () => {
         $(".edit-show").show();
         showLoading();
-        $("#edit_content").load('./pages/EEO/index.html', () => {
-            checkValidatePage(false);
-            refreshTabButton();
+        $("#edit_content").load('./pages/EEO/index.html', async () => {
             customRadioButton.init("disability_radio");
             customRadioButton.init("vertain_radio");
             customRadioButton.init("lgbtq_radio");
             customRadioButton.init("gender_radio");
+            await EEOPage.getCurrentSavedData();
+            checkValidatePage(false);
+            refreshTabButton();
             hideLoading();
             $(".validate-input-form").change(function () {
                 checkValidatePage(false);
@@ -236,6 +363,30 @@ const EEOPage = {
     },
     checkValidate: () => {
         return true;
+    },
+    getSaveData: () => {
+        return {
+            disability: customRadioButton.getValue("disability_radio"),
+            vertain: customRadioButton.getValue("vertain_radio"),
+            lgbtq: customRadioButton.getValue("lgbtq_radio"),
+            gender: customRadioButton.getValue("gender_radio"),
+            ethnicity: $("#ethnicity").val(),
+        }
+    },
+    getCurrentSavedData: async () => {
+        const key = pageName[currentPageIndex];
+        const result = await chrome.storage.local.get(key);
+        if (chrome.runtime.lastError){
+            console.log('Error getting');
+        }
+        else if (result && result.EEO) {
+            var eeoData = result.EEO;
+            customRadioButton.setValue("disability_radio", eeoData['disability']);
+            customRadioButton.setValue("vertain_radio", eeoData['vertain']);
+            customRadioButton.setValue("lgbtq_radio", eeoData['lgbtq']);
+            customRadioButton.setValue("gender_radio", eeoData['gender']);
+            $("#ethnicity").val(eeoData['ethnicity']);
+        }
     }
 }
 

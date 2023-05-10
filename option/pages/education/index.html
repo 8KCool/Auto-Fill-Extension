@@ -9,12 +9,12 @@
     </div>
     <div class="row w-100 col-sm-12 mb-3">
       <h5 class="color-gray">School Name</h5>
-      <input type="text" class="form-control custom-input mt-2 validate-input-form" placeholder="School Name" />
+      <input type="text" id="school_name" class="form-control custom-input mt-2 validate-input-form" placeholder="School Name" />
     </div>
     <div class="row w-100">
       <div class="col-sm-6 mb-3">
         <h5 class="color-gray">Major</h5>
-        <select class="form-control custom-select mt-2">
+        <select class="form-control custom-select mt-2" id="major">
           <option value="0" selected>Accounting</option>
           <option value="1">Actuarial Science</option>
           <option value="2">Aerospace Engineering</option>
@@ -106,7 +106,7 @@
       </div>
       <div class="col-sm-4 mb-3">
         <h5 class="color-gray">Degree Type</h5>
-        <select class="form-control custom-select mt-2" placeholder="Degree Type">
+        <select class="form-control custom-select mt-2" id="degree_type">
           <option value="0">Bachelor's</option>
           <option value="1">Master's</option>
           <option value="2">MBA</option>
@@ -117,13 +117,13 @@
       </div>
       <div class="col-sm-2 mb-3">
         <h5 class="color-gray">GPA</h5>
-        <input type="number" class="form-control custom-input mt-2 validate-input-form" placeholder="GPA" />
+        <input type="number" class="form-control custom-input mt-2" id="gpa" placeholder="GPA" />
       </div>
     </div>
     <div class="row w-100 mb-6">
       <div class="col-sm-4 mb-3">
         <h5 class="color-gray">Start Month</h5>
-        <select class="form-control custom-select mt-2">
+        <select class="form-control custom-select mt-2" id="edu_start_month">
           <option value="January">January</option>
           <option value="February">February</option>
           <option value="March">March</option>
@@ -140,11 +140,11 @@
       </div>
       <div class="col-sm-2 mb-3">
         <h5 class="color-gray">Start Year</h5>
-        <select class="form-control custom-select mt-2 select-year"></select>
+        <select class="form-control custom-select mt-2 select-year" id="edu_start_year"></select>
       </div>
       <div class="col-sm-4 mb-3">
         <h5 class="color-gray">End Month</h5>
-        <select class="form-control custom-select mt-2">
+        <select class="form-control custom-select mt-2" id="edu_end_month">
           <option value="January">January</option>
           <option value="February">February</option>
           <option value="March">March</option>
@@ -161,7 +161,7 @@
       </div>
       <div class="col-sm-2 mb-3">
         <h5 class="color-gray">End Year</h5>
-        <select class="form-control custom-select mt-2 select-year"></select>
+        <select class="form-control custom-select mt-2 select-year" id="edu_end_year"></select>
       </div>
     </div>
     <div class="row w-100 col-sm-12 mb-3">
