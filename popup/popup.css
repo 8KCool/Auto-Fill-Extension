@@ -1,20 +1,23 @@
-body {
-    margin: 0;
-    width: 357px;
-    font-family: "Euclid Circular B", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #505356;
-}
+ body {
+     margin: 0;
+     width: 300px;
+     font-family: "Euclid Circular B", Roboto, Helvetica, Arial, sans-serif;
+     background-color: white;
+ }
 
-#default_content {
-    background-color: #505356;
-    overflow-x: hidden;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+ .bg-white {
+    background-color: white;
+ }
+
+ .bg-header {
+    background-color: #f9fafb;
+ }
+
+.border-bottom-1 {
+    border: 1px solid lightgray;
 }
 
 .app-header {
-    background-color: #2a2c2d;
     padding: 1rem;
     z-index: 26;
     align-items: center;
@@ -24,6 +27,7 @@ body {
     flex-flow: column nowrap;
     width: 100%;
     flex: 0 0 auto;
+    box-shadow: 1px 1px lightgray;
 }
 
 .app-header-content {
@@ -36,11 +40,11 @@ body {
 .header-icon {
     cursor: pointer;
     align-items: center;
-    margin-right: 1rem;
+    margin-right: 0.8rem;
 }
 
 .header-icon-img {
-    height: 32px;
+    height: 35px;
 }
 
 .app-header-title {
@@ -50,9 +54,30 @@ body {
 
 .app-header-title .title {
     align-items: center;
-    color: white;
-    font-size: 18px;
+    color: rgb(57, 57, 57);
+    font-size: 24px;
+    font-weight: 700;
+    text-shadow: 1px 1px 1px gray;
 }
+
+.ft-16 {
+    font-size: 16px;
+}
+
+.px-20 {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+
+ /* #default_content {
+    background-color: white;
+    overflow-x: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 
 #loading {
     position: absolute;
@@ -68,14 +93,16 @@ body {
 }
 
 #content #content_title {
-    color: white;
-    font-size: 20px;
+    color: rgb(49, 49, 49);
+    font-size: 18px;
     line-height: 1.4em;
     margin: 0;
+    text-align: justify;
+    font-weight: 450;
 }
 
 #content_title .option-link {
-    color: aqua;
+    color: black;
     font-weight: bold;
 }
 
@@ -87,7 +114,7 @@ body {
     margin-top: 20px;
     background-color: #2f80ed;
     border-radius: 5px;
-    color: #fff;
+    color: black;
     cursor: pointer;
     font-family: Inter, -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 20px;
@@ -141,11 +168,11 @@ body {
 
 .option-btn {
     font-size: 14px;
-    color: white;
+    color: black;
     text-align: center;
     text-decoration: none;
     margin-top: 10px !important;
     margin: auto;
     text-decoration: underline;
     cursor: pointer;
-}
+} */

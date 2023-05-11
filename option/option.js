@@ -3,14 +3,7 @@ var pageName = ["Roles", "Personal", "Education", "Experience", "Workauth", "EEO
 
 
 $(document).ready(() => {
-    // clear storage function
-    // chrome.storage.local.clear(function() {
-    //     var error = chrome.runtime.lastError;
-    //     if (error) {
-    //         console.error(error);
-    //     }
-    //     // do something more
-    // });
+
     loadHelloPage();
     initPieChart();
 
@@ -20,8 +13,10 @@ $(document).ready(() => {
                 if (state && currentPageIndex != pageName.length - 1) {
                     showLoading();
                     nextPageLoad();
+                    hideLoading();
+                } else if (currentPageIndex == pageName.length - 1) {
+                    showResultSavedPage();
                 }
-                hideLoading();
             });
         }
     });
@@ -29,7 +24,27 @@ $(document).ready(() => {
     $(".main-tab-btn-before").click(() => {
         prevPageLoad();
     });
+
+    $("#finish_button").click(function () {
+        chrome.storage.local.set({ "profile_saved": true }, () => {
+            if (chrome.runtime.lastError) {
+                console.log('Error setting');
+            }
+            console.log('Stored: ' + "completed");
+            alert("Profile saved successfully.");
+        });
+    });
+
+    $("#back_button").click(function () {
+        $(".result-content").hide();
+        $(".main-content").fadeIn();
+    });
 });
+
+const showResultSavedPage = () => {
+    $(".main-content").hide();
+    $(".result-content").fadeIn();
+}
 
 // function  to save the current Page data into Index DB Google
 const saveCurrentData = (callback) => {
@@ -85,13 +100,47 @@ const tabPageLoad = (element) => {
         pageList[currentPageIndex].init();
 }
 
+const clearAllSaveProfileData = () => {
+    // clear storage function
+    chrome.storage.local.clear(function () {
+        var error = chrome.runtime.lastError;
+        if (error) {
+            console.error(error);
+        }
+        // do something more
+    });
+}
+
 // function to load the hello page
 const loadHelloPage = () => {
     showLoading();
     currentPageIndex = 0;
-    $("#edit_content").load('./pages/hello/index.html', () => {
+    $("#edit_content").load('./pages/hello/index.html', async () => {
+        // check already saved data 
+        const result = await chrome.storage.local.get("profile_saved");
+        if (chrome.runtime.lastError) {
+            console.log('Error getting');
+        }
+        else if (result && result.profile_saved) {
+            var state = result.profile_saved;
+            if (state) {
+                //    already saved
+                $("#start_btn #title").text("continue");
+                $("#hello_content").text(`You already saved your profile info. If you want to edit profile data, click "continue" button.
+                If you want to clear your profile data and make a new, click "clear" button.`);
+                $("#clear_btn").show();
+            }
+            else {
+                $("#clear_btn").hide();
+            }
+        }
+        
         hideLoading();
-        $("#start_btn").click(function () {
+        $("#start_btn").click( function () {
+            RolesPage.init();
+        })
+        $("#clear_btn").click( function () {
+            clearAllSaveProfileData();
             RolesPage.init();
         })
     });
@@ -111,8 +160,10 @@ const RolesPage = {
             $(".validate-input-form").change(function () {
                 checkValidatePage(false);
             })
+
         });
     },
+
     checkValidate: () => {
         return true;
     },
@@ -542,7 +593,7 @@ const ExperiencePage = {
         }
         else if (result && result.Experience) {  // if there is saved any data
             var experienceData = result.Experience;
-            ExperiencePageEducationerienceField(experienceData);
+            ExperiencePage.renderExperienceField(experienceData);
             initSelectYear();
             ExperiencePage.setRenderedFieldData(experienceData);
         } else { // if there is no saved
@@ -840,6 +891,7 @@ const ResumePage = {
         showLoading();
         $("#edit_content").load('./pages/resume/index.html', async () => {
             updatePieChart(0);
+            $("#save_button_title").text("Done");
             await ResumePage.getCurrentSavedData();
             checkValidatePage(false);
             refreshTabButton();

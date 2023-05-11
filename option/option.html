@@ -51,9 +51,11 @@
       <div class="continue-panel edit-show">
         <div class="continue-button btn btn-info btn-lg mb-3">
           <div class="chart-box float-left mr-2">
-            <div class="chart" data-percent="0"><font>0</font></div>
+            <div class="chart" data-percent="0">
+              <font>0</font>
+            </div>
           </div>
-          Save and Continue
+          <font id="save_button_title">Save and Continue</font>
           <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16"
             class="ml-2 inline h-4 md:h-5 w-auto" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"
@@ -63,6 +65,29 @@
         </div>
         <div>
           <a class="color-gray pointer">SKIP THIS STEP</a>
+        </div>
+      </div>
+    </div>
+    <div class="result-content hide">
+      <div class="mt-2 mb-6 edit-show mx-30">
+        <div class="px-20">
+          <div id="result_page" class="text-center fadeIn w-max-500 mx-auto">
+            <h1 class="mb-6">You're almost there!</h1>
+            <p class="mb-3 ft-20">Use our Chrome extension to apply to jobs with one-click!</p>
+            <div class="border-1-round w-max-400 mx-auto p-3 mb-6">
+              <h4 class="mb-3 text-left px-1">Chrome Extension</h4>
+              <p class="mb-3 ft-18 text-left px-3 text-gray-700">Use AutoFill on any supported job sites in your chrome
+                browser!</p>
+              <div class="w-100"><img src="../icons/128.png" class="mb-6 mx-auto" width="150px" alt=""></div>
+              <div class="btn btn-secondary disabled">Currently installed</div>
+            </div>
+            <div class="btn btn-info mx-auto px-40" id="finish_button">
+              Finish
+            </div>
+            <div class="btn btn-outline-secondary mx-auto" id="back_button">
+              Go back
+            </div>
+          </div>
         </div>
       </div>
     </div>
