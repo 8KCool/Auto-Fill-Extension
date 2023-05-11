@@ -246,6 +246,9 @@
     width: 500px;
 }
 
+.w-max-300 {
+  max-width: 300px;
+}
 .w-max-400 {
     max-width: 400px;
 }
