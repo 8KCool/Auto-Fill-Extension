@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div id="bg-white">
+    <div class="bg-white popup-content">
         <div class="bg-header border-bottom-1 app-header">
             <div class="app-header-content">
                 <div class="header-icon">
@@ -27,20 +27,26 @@
         </div>
 
         <div class="row p-3">
-            <p class="p-3 text-justify ft-16" id="content_title">Let's simplify the job application process together.
+            <p class="p-3 text-justify ft-16 mb-0" id="content_title">Let's simplify the job application process together.
                 Create your new profile now and get one step closer to your dream job. </p>
 
+            <div class="animation-content w-100 position-relative px-20">
+                <img src="./image.webp" class="anim-image-popup float-left" width="100px" />
+                <img src="./anim-div.webp" class="float-right" width="200px" height="150px" />
+                <img src="./100_img.svg" class="img-100" width="80px" />
+                <img src="./rays.16793df.svg" class="img-anim-rotate" width="110px" />
+            </div>
             <!-- <div id="autofill_btn" class="btn btn-info btn-lg mx-auto">Edit Profile</div> -->
             <!-- <div id="option_btn" class="option-btn option-link">Edit Profile</div> -->
-            <div class="btn btn-outline-info mx-auto" id="new_profile">
+            <div class="btn btn-outline-info mx-auto mt-3" id="new_profile">
                 <span class="spinner-grow spinner-grow-sm"></span>
                 Edit Candidate Profile
             </div>
-            <div class="btn btn-primary mx-auto px-20 hide" style="display: none;" id="auto_fill">
+            <div class="btn btn-primary mx-auto px-20 hide mt-3" style="display: none;" id="auto_fill">
                 <span class="spinner-grow spinner-grow-sm"></span>
                 AutoFill
             </div>
-            <div class="btn btn-outline-info mx-auto px-20 hide" style="display: none;" id="edit_profile">
+            <div class="btn btn-outline-info mx-auto px-20 hide mt-3" style="display: none;" id="edit_profile">
                 <span class="spinner-grow spinner-grow-sm"></span>
                 Edit
             </div>
@@ -50,8 +56,8 @@
     <!-- <div id="loading">
         <img src="./loadingbar.gif" width="100px" />
     </div> -->
-  <script src="../plugin/jquery-3.6.0.min.js"></script>
-  <script src="./popup.js"></script>
+    <script src="../plugin/jquery-3.6.0.min.js"></script>
+    <script src="./popup.js"></script>
 </body>
 
 </html>
