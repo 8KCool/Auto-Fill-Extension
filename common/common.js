@@ -78,7 +78,6 @@ const customSelect = {
     },
 
     setSelect: (tag, value) => {
-        debugger;
         customSelect.value = "";
         const selected = document.querySelector(`.${tag} .selected`);
         const optionsContainer = document.querySelector(`.${tag} .options-container`);

@@ -270,15 +270,15 @@ const ExperiencePage = {
         showLoading();
         $("#edit_content").load('./pages/experience/index.html', async () => {
             updatePieChart(0);
-            initSelectYear();
             await ExperiencePage.getCurrentSavedData();
             refreshTabButton();
+            initSelectYear();
             checkValidatePage(false);
             hideLoading();
-            
+
             $(".validate-input-form").change(function () {
                 checkValidatePage(false);
-            })
+            });
 
             $("#has_experience").change(function () {
                 if (this.checked) {
@@ -288,24 +288,41 @@ const ExperiencePage = {
                     $("#btn_add").show();
                     $("#experience_panel").html(ExperiencePage.makeRenderTemplate(1));
                 }
+                initSelectYear();
                 checkValidatePage(false);
-            })
+            });
+
+            $("#btn_add").click(function () {
+                var idx = $(".experience-content").length + 1;
+                $("#experience_panel").append(ExperiencePage.makeRenderTemplate(idx));
+                initSelectYear();
+                checkValidatePage(false);
+            });
         });
     },
     checkValidate: () => {
         return true;
     },
     getSaveData: () => {
+        debugger;
+        var experience_array = [];
+        var count = $(".experience-content").length;
+        for (var i = 1; i <= count; i++) {
+            experience_array.push({
+                experience_company: $(`#experience_company_${i}`).val(),
+                experience_location: $(`#experience_location_${i}`).val(),
+                experience_position_title: $(`#experience_position_title_${i}`).val(),
+                experience_type: $(`#experience_type_${i}`).val(),
+                experience_start_month: $(`#experience_start_month_${i}`).val(),
+                experience_start_year: $(`#experience_start_year_${i}`).val(),
+                experience_end_month: $(`#experience_end_month_${i}`).val(),
+                experience_end_year: $(`#experience_end_year_${i}`).val(),
+                experience_description: $(`#experience_description_${i}`).val(),
+            });
+        }
         return {
-            experience_company: $("#experience_company").val(),
-            experience_location: $("#experience_location").val(),
-            experience_position_title: $("#experience_position_title").val(),
-            experience_type: $("#experience_type").val(),
-            experience_start_month: $("#experience_start_month").val(),
-            experience_start_year: $("#experience_start_year").val(),
-            experience_end_month: $("#experience_end_month").val(),
-            experience_end_year: $("#experience_end_year").val(),
-            experience_description: $("#experience_description").val(),
+            experience_state: count,
+            experience_data: experience_array
         }
     },
     getCurrentSavedData: async () => {
@@ -314,15 +331,20 @@ const ExperiencePage = {
         if (chrome.runtime.lastError) {
             console.log('Error getting');
         }
-        else if (result && result.Experience) {
+        else if (result && result.Experience) {  // if there is saved any data
             var experienceData = result.Experience;
             ExperiencePage.renderExperienceField(experienceData);
+            initSelectYear();
+            ExperiencePage.setRenderedFieldData(experienceData);
+        } else { // if there is no saved
+            $("#experience_panel").append(ExperiencePage.makeRenderTemplate(1));
         }
     },
 
     renderExperienceField: (experienceData) => {
+        debugger;
         var experience_count = -1;
-        if (experienceData['experience_state']) {
+        if (experienceData['experience_state'] >= 0) {
             experience_count = parseInt(experienceData['experience_state']);
         }
 
@@ -331,116 +353,124 @@ const ExperiencePage = {
             $("#experience_panel").append(ExperiencePage.makeRenderTemplate(1));
         } else if (experience_count == 0) {
             // checked no experience check box
-
+            $("#experience_panel").html("<p class='mb-3 ft-20'><i>You've come to the right place! Simplify has helped thousands of students land their first job.</i></p>")
+            $("#has_experience").prop('checked', true);
+            $("#btn_add").hide();
         }
         else if (experience_count > 0) {
-            $("#experience_panel").append(ExperiencePage.makeRenderTemplate(experience_count, data));
-            // saved data
-            // $("#experience_company").val(experienceData['experience_company']);
-            // $("#experience_location").val(experienceData['experience_location']);
-            // $("#experience_position_title").val(experienceData['experience_position_title']);
-            // $("#experience_type").val(experienceData['experience_type']);
-            // $("#experience_start_month").val(experienceData['experience_start_month']);
-            // $("#experience_start_year").val(experienceData['experience_start_year']);
-            // $("#experience_end_month").val(experienceData['experience_end_month']);
-            // $("#experience_end_year").val(experienceData['experience_end_year']);
-            // $("#experience_description").val(experienceData['experience_description']);
+            var dataArray = experienceData['experience_data'];
+            debugger;
+            for (i = 1; i <= experience_count; i++) {
+                $("#experience_panel").append(ExperiencePage.makeRenderTemplate(i));
+            }
         }
     },
 
-    makeRenderTemplate: (count, data) => {
+    makeRenderTemplate: (idx) => {
         var html = "";
-        if(data) {
+        html += `<div class="row w-100 col-sm-12 experience-content">
+                        <h3>Work Experience ${idx}</h3>
+                        </div>
+                        <div class="row w-100">
+                        <div class="col-sm-6 mb-3">
+                            <h5 class="color-gray">Company</h5>
+                            <input type="text" id="experience_company_${idx}" class="form-control custom-input mt-2 validate-input-form"
+                            placeholder="Company" />
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <h5 class="color-gray">Location</h5>
+                            <input type="text" id="experience_location_${idx}" class="form-control custom-input mt-2 validate-input-form"
+                            placeholder="Location" />
+                        </div>
+                        </div>
+                        <div class="row w-100">
+                        <div class="col-sm-6 mb-3">
+                            <h5 class="color-gray">Position Title</h5>
+                            <input type="text" id="experience_position_title_${idx}" class="form-control custom-input mt-2 validate-input-form"
+                            placeholder="Position Title" />
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <h5 class="color-gray">Experience Title</h5>
+                            <select class="form-control custom-select mt-2" id="experience_type_${idx}">
+                            <option value="Internship" selected>Internship</option>
+                            <option value="Full-Time">Full-Time</option>
+                            <option value="Part-Time">Part-Time</option>
+                            </select>
+                        </div>
+                        </div>
+    
+                        <div class="row w-100 mb-3">
+                        <div class="col-sm-4 mb-3">
+                            <h5 class="color-gray">Start Month</h5>
+                            <select class="form-control custom-select mt-2" id="experience_start_month_${idx}">
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 mb-3">
+                            <h5 class="color-gray">Start Year</h5>
+                            <select class="form-control custom-select mt-2 select-year" id="experience_start_year_${idx}"></select>
+                        </div>
+                        <div class="col-sm-4 mb-3">
+                            <h5 class="color-gray">End Month</h5>
+                            <select class="form-control custom-select mt-2" id="experience_end_month_${idx}">
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 mb-3">
+                            <h5 class="color-gray">End Year</h5>
+                            <select class="form-control custom-select mt-2 select-year" id="experience_end_year_${idx}"></select>
+                        </div>
+                        </div>
+                        <div class="row w-100 mb-6">
+                        <div class="col-sm-12 mb-3">
+                            <h5 class="color-gray">Description</h5>
+                            <input type="text" id="experience_description_${idx}" class="form-control custom-input mt-2 validate-input-form"
+                            placeholder="A couple sentences about your role" />
+                        </div>
+                    </div>`;
+        return html;
+    },
 
-        } else {
-            for(var i = 1; i <= count; i ++) {
-                html += `<div class="row w-100 col-sm-12">
-                            <h3>Work Experience ${i}</h3>
-                            </div>
-                            <div class="row w-100">
-                            <div class="col-sm-6 mb-3">
-                                <h5 class="color-gray">Company</h5>
-                                <input type="text" id="experience_company_${i}" class="form-control custom-input mt-2 validate-input-form"
-                                placeholder="Company" />
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <h5 class="color-gray">Location</h5>
-                                <input type="text" id="experience_location_${i}" class="form-control custom-input mt-2 validate-input-form"
-                                placeholder="Location" />
-                            </div>
-                            </div>
-                            <div class="row w-100">
-                            <div class="col-sm-6 mb-3">
-                                <h5 class="color-gray">Position Title</h5>
-                                <input type="text" id="experience_position_title_${i}" class="form-control custom-input mt-2 validate-input-form"
-                                placeholder="Position Title" />
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <h5 class="color-gray">Experience Title</h5>
-                                <select class="form-control custom-select mt-2" id="experience_type_${i}">
-                                <option value="Internship" selected>Internship</option>
-                                <option value="Full-Time">Full-Time</option>
-                                <option value="Part-Time">Part-Time</option>
-                                </select>
-                            </div>
-                            </div>
-        
-                            <div class="row w-100 mb-3">
-                            <div class="col-sm-4 mb-3">
-                                <h5 class="color-gray">Start Month</h5>
-                                <select class="form-control custom-select mt-2" id="experience_start_month_${i}">
-                                <option value="January">January</option>
-                                <option value="February">February</option>
-                                <option value="March">March</option>
-                                <option value="April">April</option>
-                                <option value="May">May</option>
-                                <option value="June">June</option>
-                                <option value="July">July</option>
-                                <option value="August">August</option>
-                                <option value="September">September</option>
-                                <option value="October">October</option>
-                                <option value="November">November</option>
-                                <option value="December">December</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-2 mb-3">
-                                <h5 class="color-gray">Start Year</h5>
-                                <select class="form-control custom-select mt-2 select-year" id="experience_start_year_${i}"></select>
-                            </div>
-                            <div class="col-sm-4 mb-3">
-                                <h5 class="color-gray">End Month</h5>
-                                <select class="form-control custom-select mt-2" id="experience_end_month_${i}">
-                                <option value="January">January</option>
-                                <option value="February">February</option>
-                                <option value="March">March</option>
-                                <option value="April">April</option>
-                                <option value="May">May</option>
-                                <option value="June">June</option>
-                                <option value="July">July</option>
-                                <option value="August">August</option>
-                                <option value="September">September</option>
-                                <option value="October">October</option>
-                                <option value="November">November</option>
-                                <option value="December">December</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-2 mb-3">
-                                <h5 class="color-gray">End Year</h5>
-                                <select class="form-control custom-select mt-2 select-year" id="experience_end_year_${i}"></select>
-                            </div>
-                            </div>
-                            <div class="row w-100 mb-6">
-                            <div class="col-sm-12 mb-3">
-                                <h5 class="color-gray">Description</h5>
-                                <input type="text" id="experience_description_${i}" class="form-control custom-input mt-2 validate-input-form"
-                                placeholder="A couple sentences about your role" />
-                            </div>
-                        </div>`;
+    setRenderedFieldData: (experienceData) => {
+        debugger;
+        let count = parseInt(experienceData['experience_state']);
+        if(count > 0) {
+            var dataArray = experienceData['experience_data'];
+            for (i = 1; i <= count; i++) {
+                $("#experience_company_" + i).val(dataArray[i-1].experience_company);
+                $("#experience_location_" + i).val(dataArray[i-1].experience_location);
+                $("#experience_position_title_" + i).val(dataArray[i-1].experience_position_title);
+                $("#experience_type_" + i).val(dataArray[i-1].experience_type);
+                $("#experience_start_month_" + i).val(dataArray[i-1].experience_start_month);
+                $("#experience_start_year_" + i).val(dataArray[i-1].experience_start_year);
+                $("#experience_end_month_" + i).val(dataArray[i-1].experience_end_month);
+                $("#experience_end_year_" + i).val(dataArray[i-1].experience_end_year);
+                $("#experience_description_" + i).val(dataArray[i-1].experience_description);
             }
         }
-        return html;
     }
-
 }
 
 // function to load the Experience page
@@ -685,7 +715,6 @@ const ResumePage = {
             $("#other_url").val(resumeData['other_url']);
         }
 
-        debugger;
         // Load resume
         chrome.storage.local.get("resumeFile", function (result) {
             var resumeFile = result.resumeFile;
