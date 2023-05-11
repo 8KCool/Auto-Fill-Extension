@@ -17,7 +17,7 @@ $(document).ready(() => {
     $(".continue-button").click(async () => {
         if (checkValidatePage(true) && pageList[currentPageIndex].checkValidate()) {
             saveCurrentData(function (state) {
-                if (state && currentPageIndex != pageName.length - 1){
+                if (state && currentPageIndex != pageName.length - 1) {
                     showLoading();
                     nextPageLoad();
                 }
@@ -186,6 +186,7 @@ const PersonalPage = {
             phone_number: $("#phone_number").val(),
             phone_code: $("#phone_code").val(),
             phone_extension: $("#phone_extension").val(),
+            country: $(".country-select").attr("data-value")
         }
     },
     getCurrentSavedData: async () => {
@@ -204,6 +205,8 @@ const PersonalPage = {
             $("#phone_number").val(personData['phone_number']);
             $("#phone_code").val(personData['phone_code']);
             $("#phone_extension").val(personData['phone_extension']);
+
+            customSelect.setSelect("country-select", personData['country']);
         }
     }
 }
@@ -272,7 +275,19 @@ const ExperiencePage = {
             refreshTabButton();
             checkValidatePage(false);
             hideLoading();
+            
             $(".validate-input-form").change(function () {
+                checkValidatePage(false);
+            })
+
+            $("#has_experience").change(function () {
+                if (this.checked) {
+                    $("#experience_panel").html("<p class='mb-3 ft-20'><i>You've come to the right place! Simplify has helped thousands of students land their first job.</i></p>")
+                    $("#btn_add").hide();
+                } else {
+                    $("#btn_add").show();
+                    $("#experience_panel").html(ExperiencePage.makeRenderTemplate(1));
+                }
                 checkValidatePage(false);
             })
         });
@@ -285,7 +300,7 @@ const ExperiencePage = {
             experience_company: $("#experience_company").val(),
             experience_location: $("#experience_location").val(),
             experience_position_title: $("#experience_position_title").val(),
-            experience_title: $("#experience_title").val(),
+            experience_type: $("#experience_type").val(),
             experience_start_month: $("#experience_start_month").val(),
             experience_start_year: $("#experience_start_year").val(),
             experience_end_month: $("#experience_end_month").val(),
@@ -301,17 +316,131 @@ const ExperiencePage = {
         }
         else if (result && result.Experience) {
             var experienceData = result.Experience;
-            $("#experience_company").val(experienceData['experience_company']);
-            $("#experience_location").val(experienceData['experience_location']);
-            $("#experience_position_title").val(experienceData['experience_position_title']);
-            $("#experience_title").val(experienceData['experience_title']);
-            $("#experience_start_month").val(experienceData['experience_start_month']);
-            $("#experience_start_year").val(experienceData['experience_start_year']);
-            $("#experience_end_month").val(experienceData['experience_end_month']);
-            $("#experience_end_year").val(experienceData['experience_end_year']);
-            $("#experience_description").val(experienceData['experience_description']);
+            ExperiencePage.renderExperienceField(experienceData);
         }
+    },
+
+    renderExperienceField: (experienceData) => {
+        var experience_count = -1;
+        if (experienceData['experience_state']) {
+            experience_count = parseInt(experienceData['experience_state']);
+        }
+
+        if (experience_count == -1) {
+            // saved no data or unchecked no experience check box
+            $("#experience_panel").append(ExperiencePage.makeRenderTemplate(1));
+        } else if (experience_count == 0) {
+            // checked no experience check box
+
+        }
+        else if (experience_count > 0) {
+            $("#experience_panel").append(ExperiencePage.makeRenderTemplate(experience_count, data));
+            // saved data
+            // $("#experience_company").val(experienceData['experience_company']);
+            // $("#experience_location").val(experienceData['experience_location']);
+            // $("#experience_position_title").val(experienceData['experience_position_title']);
+            // $("#experience_type").val(experienceData['experience_type']);
+            // $("#experience_start_month").val(experienceData['experience_start_month']);
+            // $("#experience_start_year").val(experienceData['experience_start_year']);
+            // $("#experience_end_month").val(experienceData['experience_end_month']);
+            // $("#experience_end_year").val(experienceData['experience_end_year']);
+            // $("#experience_description").val(experienceData['experience_description']);
+        }
+    },
+
+    makeRenderTemplate: (count, data) => {
+        var html = "";
+        if(data) {
+
+        } else {
+            for(var i = 1; i <= count; i ++) {
+                html += `<div class="row w-100 col-sm-12">
+                            <h3>Work Experience ${i}</h3>
+                            </div>
+                            <div class="row w-100">
+                            <div class="col-sm-6 mb-3">
+                                <h5 class="color-gray">Company</h5>
+                                <input type="text" id="experience_company_${i}" class="form-control custom-input mt-2 validate-input-form"
+                                placeholder="Company" />
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <h5 class="color-gray">Location</h5>
+                                <input type="text" id="experience_location_${i}" class="form-control custom-input mt-2 validate-input-form"
+                                placeholder="Location" />
+                            </div>
+                            </div>
+                            <div class="row w-100">
+                            <div class="col-sm-6 mb-3">
+                                <h5 class="color-gray">Position Title</h5>
+                                <input type="text" id="experience_position_title_${i}" class="form-control custom-input mt-2 validate-input-form"
+                                placeholder="Position Title" />
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <h5 class="color-gray">Experience Title</h5>
+                                <select class="form-control custom-select mt-2" id="experience_type_${i}">
+                                <option value="Internship" selected>Internship</option>
+                                <option value="Full-Time">Full-Time</option>
+                                <option value="Part-Time">Part-Time</option>
+                                </select>
+                            </div>
+                            </div>
+        
+                            <div class="row w-100 mb-3">
+                            <div class="col-sm-4 mb-3">
+                                <h5 class="color-gray">Start Month</h5>
+                                <select class="form-control custom-select mt-2" id="experience_start_month_${i}">
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="November">November</option>
+                                <option value="December">December</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2 mb-3">
+                                <h5 class="color-gray">Start Year</h5>
+                                <select class="form-control custom-select mt-2 select-year" id="experience_start_year_${i}"></select>
+                            </div>
+                            <div class="col-sm-4 mb-3">
+                                <h5 class="color-gray">End Month</h5>
+                                <select class="form-control custom-select mt-2" id="experience_end_month_${i}">
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="November">November</option>
+                                <option value="December">December</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2 mb-3">
+                                <h5 class="color-gray">End Year</h5>
+                                <select class="form-control custom-select mt-2 select-year" id="experience_end_year_${i}"></select>
+                            </div>
+                            </div>
+                            <div class="row w-100 mb-6">
+                            <div class="col-sm-12 mb-3">
+                                <h5 class="color-gray">Description</h5>
+                                <input type="text" id="experience_description_${i}" class="form-control custom-input mt-2 validate-input-form"
+                                placeholder="A couple sentences about your role" />
+                            </div>
+                        </div>`;
+            }
+        }
+        return html;
     }
+
 }
 
 // function to load the Experience page
@@ -557,13 +686,13 @@ const ResumePage = {
         }
 
         debugger;
-         // Load resume
+        // Load resume
         chrome.storage.local.get("resumeFile", function (result) {
             var resumeFile = result.resumeFile;
             if (resumeFile) {
                 // var editprofileform = document.forms["editprofileform"];
                 var dataTransfer = new DataTransfer();
-                dataTransfer.items.add( new File([resumeFile["text"]], resumeFile["name"], {type: "application/pdf"}) );
+                dataTransfer.items.add(new File([resumeFile["text"]], resumeFile["name"], { type: "application/pdf" }));
                 // editprofileform["inputresume"].files = dataTransfer.files;
                 $("#customResumeFile").files = dataTransfer.files;
                 $("#customResumeFileLabel").addClass("selected").html(resumeFile["name"]);
@@ -575,7 +704,7 @@ const ResumePage = {
             if (coverLetterFile) {
                 // var editprofileform = document.forms["editprofileform"];
                 var dataTransfer = new DataTransfer();
-                dataTransfer.items.add( new File([coverLetterFile['text']], coverLetterFile["name"], {type: "application/pdf"}) );
+                dataTransfer.items.add(new File([coverLetterFile['text']], coverLetterFile["name"], { type: "application/pdf" }));
                 // editprofileform["inputcoverletter"].files = dataTransfer.files;
                 $("#customCoverLetterFile").files = dataTransfer.files;
                 $("#customCoverLetterFileLabel").addClass("selected").html(coverLetterFile["name"]);

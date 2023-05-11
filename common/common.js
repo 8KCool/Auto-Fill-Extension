@@ -1,3 +1,5 @@
+
+// custom loading bar
 const showLoading = () => {
     $(".main-content").hide();
     $(".loading-bar").show();
@@ -8,6 +10,7 @@ const hideLoading = () => {
     $(".main-content").fadeIn();
 }
 
+// custom pie chart
 const initPieChart = () => {
     $('.continue-button .chart').easyPieChart({
         size: 30,
@@ -25,7 +28,7 @@ const updatePieChart = (pro) => {
     $('.continue-button .chart').data('easyPieChart').update(pro);
 }
 
-// tag: className
+// custom select/search element : {tag: className }
 const customSelect = {
     value: "",
     init: (tag, callback) => {
@@ -74,8 +77,27 @@ const customSelect = {
         };
     },
 
+    setSelect: (tag, value) => {
+        debugger;
+        customSelect.value = "";
+        const selected = document.querySelector(`.${tag} .selected`);
+        const optionsContainer = document.querySelector(`.${tag} .options-container`);
+        const searchBox = document.querySelector(`.${tag} .search-box input`);
+
+        const optionsList = document.querySelectorAll(".option");
+
+        optionsList.forEach(o => {
+            if (o.querySelector(".radio").dataset.id == value) {
+                customSelect.value = o.querySelector(".radio").dataset.id;
+                document.querySelector(`.${tag}`).dataset.value = customSelect.value;
+                selected.innerHTML = o.querySelector("label").innerHTML;
+                optionsContainer.classList.remove("active");
+            }
+        });
+    }
 }
 
+// set year select data
 const initSelectYear = () => {
     var yearMax = 2033;
     var yearMin = 1930;
@@ -86,7 +108,7 @@ const initSelectYear = () => {
     }
 }
 
-// id: id tag
+// custom radio button {id: id tag}
 const customRadioButton = {
     init: (id) => {
         $(`#${id} .radio-value`).click(function () {
