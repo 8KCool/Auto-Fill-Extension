@@ -147,3 +147,13 @@
   .radio-value.active {
     background-color: #28a745;
   }
+
+  .mx-m15 {
+    margin-left: -15px !important;
+    margin-right: -15px !important;
+  }
+
+  .px-15 {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }

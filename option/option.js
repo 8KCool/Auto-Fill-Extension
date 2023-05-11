@@ -218,29 +218,43 @@ const EducationPage = {
         showLoading();
         $("#edit_content").load('./pages/education/index.html', async () => {
             updatePieChart(0);
-            initSelectYear();
             await EducationPage.getCurrentSavedData();
+            initSelectYear();
             checkValidatePage(false);
             refreshTabButton();
             hideLoading();
             $(".validate-input-form").change(function () {
                 checkValidatePage(false);
-            })
+            });
+            $("#btn_add").click(function () {
+                var idx = $(".education-content").length + 1;
+                $("#education_panel").append(EducationPage.makeRenderTemplate(idx));
+                initSelectYear();
+                checkValidatePage(false);
+            });
         });
     },
     checkValidate: () => {
         return true;
     },
     getSaveData: () => {
+        var education_array = [];
+        var count = $(".education-content").length;
+        for (var i = 1; i <= count; i++) {
+            education_array.push({
+                education_school_name: $(`#education_school_name_${i}`).val(),
+                education_major: $(`#education_major_${i}`).val(),
+                education_degree_type: $(`#education_degree_type_${i}`).val(),
+                education_gpa: $(`#education_gpa_${i}`).val(),
+                education_start_month: $(`#education_start_month_${i}`).val(),
+                education_start_year: $(`#education_start_year_${i}`).val(),
+                education_end_month: $(`#education_end_month_${i}`).val(),
+                education_end_year: $(`#education_end_year_${i}`).val(),
+            });
+        }
         return {
-            school_name: $("#school_name").val(),
-            major: $("#major").val(),
-            degree_type: $("#degree_type").val(),
-            gpa: $("#gpa").val(),
-            edu_start_month: $("#edu_start_month").val(),
-            edu_start_year: $("#edu_start_year").val(),
-            edu_end_month: $("#edu_end_month").val(),
-            edu_end_year: $("#edu_end_year").val(),
+            education_state: count,
+            education_data: education_array
         }
     },
     getCurrentSavedData: async () => {
@@ -251,14 +265,210 @@ const EducationPage = {
         }
         else if (result && result.Education) {
             var educationData = result.Education;
-            $("#school_name").val(educationData['school_name']);
-            $("#major").val(educationData['major']);
-            $("#degree_type").val(educationData['degree_type']);
-            $("#gpa").val(educationData['gpa']);
-            $("#edu_start_month").val(educationData['edu_start_month']);
-            $("#edu_start_year").val(educationData['edu_start_year']);
-            $("#edu_end_month").val(educationData['edu_end_month']);
-            $("#edu_end_year").val(educationData['edu_end_year']);
+            EducationPage.renderEducationField(educationData);
+            initSelectYear();
+            EducationPage.setRenderedFieldData(educationData);
+        } else {
+            $("#education_panel").append(EducationPage.makeRenderTemplate(1));
+        }
+    },
+    renderEducationField: (educationData) => {
+        var experience_count = -1;
+        if (educationData['education_state'] >= 0) {
+            education_count = parseInt(educationData['education_state']);
+        }
+
+        if (education_count <= 0) {
+            // saved no data or unchecked no education check box
+            $("#education_panel").append(EducationPage.makeRenderTemplate(1));
+        }
+        else if (education_count > 0) {
+            var dataArray = educationData['education_data'];
+            for (i = 1; i <= education_count; i++) {
+                $("#education_panel").append(EducationPage.makeRenderTemplate(i));
+            }
+        }
+    },
+    makeRenderTemplate: (idx) => {
+        var html = "";
+        html += `<div class="row w-100 col-sm-12 education-content">
+                    <h3>Education ${idx}</h3>
+                </div>
+                <div class="row w-100 col-sm-12 mb-3">
+                    <h5 class="color-gray">School Name</h5>
+                    <input type="text" id="education_school_name_${idx}" class="form-control custom-input mt-2 validate-input-form"
+                    placeholder="School Name" />
+                </div>
+                <div class="row w-100">
+                    <div class="col-sm-6 mb-3">
+                    <h5 class="color-gray">Major</h5>
+                    <select class="form-control custom-select mt-2" id="education_major_${idx}">
+                        <option value="0" selected>Accounting</option>
+                        <option value="1">Actuarial Science</option>
+                        <option value="2">Aerospace Engineering</option>
+                        <option value="3">Anthropology</option>
+                        <option value="4">Applied Mathematics</option>
+                        <option value="5">Architecture</option>
+                        <option value="6">Art</option>
+                        <option value="7">Art History</option>
+                        <option value="8">Astronomy</option>
+                        <option value="9">Biochemistry</option>
+                        <option value="10">Bioinformatics</option>
+                        <option value="11">Biology</option>
+                        <option value="12">Biomedical Engineering</option>
+                        <option value="13">Business</option>
+                        <option value="14">Business Analytics</option>
+                        <option value="15">Cell & Molecular Biology</option>
+                        <option value="16">Chemical Engineering</option>
+                        <option value="17">Chemistry</option>
+                        <option value="18">Civil Engineering</option>
+                        <option value="19">Coding School</option>
+                        <option value="20">Cognitive Science</option>
+                        <option value="21">Communications</option>
+                        <option value="22">Computer Engineering</option>
+                        <option value="23">Computer Science</option>
+                        <option value="24">Data Science</option>
+                        <option value="25">Earth Science</option>
+                        <option value="26">Economics</option>
+                        <option value="27">Education</option>
+                        <option value="28">Electrical Engineering</option>
+                        <option value="29">English</option>
+                        <option value="30">Entrepreneurship</option>
+                        <option value="31">Environmental Engineering</option>
+                        <option value="32">Environmental Science</option>
+                        <option value="33">Film</option>
+                        <option value="34">Finance</option>
+                        <option value="35">Financial Engineering</option>
+                        <option value="36">Forensic Science</option>
+                        <option value="37">Gender Studies</option>
+                        <option value="38">Geophysics</option>
+                        <option value="39">Graphic Design</option>
+                        <option value="40">History</option>
+                        <option value="41">Hotel Administration</option>
+                        <option value="42">Human Computer Interaction</option>
+                        <option value="43">Human Resources</option>
+                        <option value="44">Industrial Engineering</option>
+                        <option value="45">Informatics</option>
+                        <option value="46">Information Science</option>
+                        <option value="47">Information Systems</option>
+                        <option value="48">International Relations</option>
+                        <option value="49">Journalism</option>
+                        <option value="50">"Latin American Studies</option>
+                        <option value="51">Latin American Studies</option>
+                        <option value="52">Linguistics</option>
+                        <option value="53">Management Engineering</option>
+                        <option value="54">Marketing</option>
+                        <option value="55">Materials Science</option>
+                        <option value="56">Mathematics</option>
+                        <option value="57">Mechanical Engineering</option>
+                        <option value="58">Music</option>
+                        <option value="59">Neuroscience</option>
+                        <option value="60">Nursing</option>
+                        <option value="61">Operations Research</option>
+                        <option value="62">Other/Not Listed</option>
+                        <option value="63">Petroleum Engineering</option>
+                        <option value="64">Pharmacology</option>
+                        <option value="65">Pharmacy</option>
+                        <option value="66">Philosophy</option>
+                        <option value="67">Physics</option>
+                        <option value="68">Political Science</option>
+                        <option value="69">Pre-dental</option>
+                        <option value="70">Pre-law</option>
+                        <option value="71">Pre-medical</option>
+                        <option value="72">Product Design</option>
+                        <option value="73">Psychology</option>
+                        <option value="74">Public Policy</option>
+                        <option value="75">Public Relations</option>
+                        <option value="76">Religious Studies</option>
+                        <option value="77">Robotics</option>
+                        <option value="78">Sociology</option>
+                        <option value="79">Software Engineering</option>
+                        <option value="80">Sports Management</option>
+                        <option value="81">Statistics</option>
+                        <option value="82">Supply Chain Management</option>
+                        <option value="83">Theatre</option>
+                        <option value="84">Undeclared</option>
+                        <option value="85">Urban Studies</option>
+                        <option value="86">Veterinary Medicine</option>
+                    </select>
+                    </div>
+                    <div class="col-sm-4 mb-3">
+                    <h5 class="color-gray">Degree Type</h5>
+                    <select class="form-control custom-select mt-2" id="education_degree_type_${idx}">
+                        <option value="0">Bachelor's</option>
+                        <option value="1">Master's</option>
+                        <option value="2">MBA</option>
+                        <option value="3">PhD</option>
+                        <option value="4">PharMD</option>
+                        <option value="5">Associate's</option>
+                    </select>
+                    </div>
+                    <div class="col-sm-2 mb-3">
+                    <h5 class="color-gray">GPA</h5>
+                    <input type="number" class="form-control custom-input mt-2" id="education_gpa_${idx}" placeholder="GPA" />
+                    </div>
+                </div>
+                <div class="row w-100 mb-6">
+                    <div class="col-sm-4 mb-3">
+                    <h5 class="color-gray">Start Month</h5>
+                    <select class="form-control custom-select mt-2" id="education_start_month_${idx}">
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+                    </div>
+                    <div class="col-sm-2 mb-3">
+                    <h5 class="color-gray">Start Year</h5>
+                    <select class="form-control custom-select mt-2 select-year" id="education_start_year_${idx}"></select>
+                    </div>
+                    <div class="col-sm-4 mb-3">
+                    <h5 class="color-gray">End Month</h5>
+                    <select class="form-control custom-select mt-2" id="education_end_month_${idx}">
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+                    </div>
+                    <div class="col-sm-2 mb-3">
+                    <h5 class="color-gray">End Year</h5>
+                    <select class="form-control custom-select mt-2 select-year" id="education_end_year_${idx}"></select>
+                    </div>
+                </div>`;
+        return html;
+    },
+
+    setRenderedFieldData: (educattionData) => {
+        let count = parseInt(educattionData['education_state']);
+        if (count > 0) {
+            var dataArray = educattionData['education_data'];
+            for (i = 1; i <= count; i++) {
+                $("#education_school_name_" + i).val(dataArray[i - 1].education_school_name);
+                $("#education_major_" + i).val(dataArray[i - 1].education_major);
+                $("#education_degree_type_" + i).val(dataArray[i - 1].education_degree_type);
+                $("#education_gpa_" + i).val(dataArray[i - 1].education_gpa);
+                $("#education_start_month_" + i).val(dataArray[i - 1].education_start_month);
+                $("#education_start_year_" + i).val(dataArray[i - 1].education_start_year);
+                $("#education_end_month_" + i).val(dataArray[i - 1].education_end_month);
+                $("#education_end_year_" + i).val(dataArray[i - 1].education_end_year);
+            }
         }
     }
 }
@@ -304,7 +514,6 @@ const ExperiencePage = {
         return true;
     },
     getSaveData: () => {
-        debugger;
         var experience_array = [];
         var count = $(".experience-content").length;
         for (var i = 1; i <= count; i++) {
@@ -333,7 +542,7 @@ const ExperiencePage = {
         }
         else if (result && result.Experience) {  // if there is saved any data
             var experienceData = result.Experience;
-            ExperiencePage.renderExperienceField(experienceData);
+            ExperiencePageEducationerienceField(experienceData);
             initSelectYear();
             ExperiencePage.setRenderedFieldData(experienceData);
         } else { // if there is no saved
@@ -342,7 +551,6 @@ const ExperiencePage = {
     },
 
     renderExperienceField: (experienceData) => {
-        debugger;
         var experience_count = -1;
         if (experienceData['experience_state'] >= 0) {
             experience_count = parseInt(experienceData['experience_state']);
@@ -359,7 +567,6 @@ const ExperiencePage = {
         }
         else if (experience_count > 0) {
             var dataArray = experienceData['experience_data'];
-            debugger;
             for (i = 1; i <= experience_count; i++) {
                 $("#experience_panel").append(ExperiencePage.makeRenderTemplate(i));
             }
@@ -454,20 +661,19 @@ const ExperiencePage = {
     },
 
     setRenderedFieldData: (experienceData) => {
-        debugger;
         let count = parseInt(experienceData['experience_state']);
-        if(count > 0) {
+        if (count > 0) {
             var dataArray = experienceData['experience_data'];
             for (i = 1; i <= count; i++) {
-                $("#experience_company_" + i).val(dataArray[i-1].experience_company);
-                $("#experience_location_" + i).val(dataArray[i-1].experience_location);
-                $("#experience_position_title_" + i).val(dataArray[i-1].experience_position_title);
-                $("#experience_type_" + i).val(dataArray[i-1].experience_type);
-                $("#experience_start_month_" + i).val(dataArray[i-1].experience_start_month);
-                $("#experience_start_year_" + i).val(dataArray[i-1].experience_start_year);
-                $("#experience_end_month_" + i).val(dataArray[i-1].experience_end_month);
-                $("#experience_end_year_" + i).val(dataArray[i-1].experience_end_year);
-                $("#experience_description_" + i).val(dataArray[i-1].experience_description);
+                $("#experience_company_" + i).val(dataArray[i - 1].experience_company);
+                $("#experience_location_" + i).val(dataArray[i - 1].experience_location);
+                $("#experience_position_title_" + i).val(dataArray[i - 1].experience_position_title);
+                $("#experience_type_" + i).val(dataArray[i - 1].experience_type);
+                $("#experience_start_month_" + i).val(dataArray[i - 1].experience_start_month);
+                $("#experience_start_year_" + i).val(dataArray[i - 1].experience_start_year);
+                $("#experience_end_month_" + i).val(dataArray[i - 1].experience_end_month);
+                $("#experience_end_year_" + i).val(dataArray[i - 1].experience_end_year);
+                $("#experience_description_" + i).val(dataArray[i - 1].experience_description);
             }
         }
     }
