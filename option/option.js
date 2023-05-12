@@ -1,3 +1,4 @@
+
 var currentPageIndex = 0;
 var pageName = ["Roles", "Personal", "Education", "Experience", "Workauth", "EEO", "Skills", "Resume"];
 
@@ -26,13 +27,7 @@ $(document).ready(() => {
     });
 
     $("#finish_button").click(function () {
-        chrome.storage.local.set({ "profile_saved": true }, () => {
-            if (chrome.runtime.lastError) {
-                console.log('Error setting');
-            }
-            console.log('Stored: ' + "completed");
-            alert("Profile saved successfully.");
-        });
+        saveProfileDataFinal();
     });
 
     $("#back_button").click(function () {
@@ -40,6 +35,43 @@ $(document).ready(() => {
         $(".main-content").fadeIn();
     });
 });
+
+const saveProfileDataFinal = async () => {
+
+    var profileData = {};
+    let data = await chrome.storage.local.get({
+        Roles: 'Roles',
+        Personal: 'Personal',
+        Education: 'Roles',
+        Experience: 'Experience',
+        Workauth: 'Workauth',
+        EEO: 'EEO',
+        Skills: 'Skills',
+        Resume: 'Resume',
+    });
+
+    for(const datakey in data) {
+        
+        if(data[datakey]) {
+            let eachData = data[datakey];
+            for(const key in eachData) {
+                console.log(`${key}: ${eachData[key]}`);
+                profileData[key] = eachData[key];
+            }
+        }
+    }
+
+    utils.storeProfile("AutoFillProfile", profileData);
+
+
+    chrome.storage.local.set({ "profile_saved": true }, () => {
+        if (chrome.runtime.lastError) {
+            console.log('Error setting');
+        }
+        console.log('Stored: ' + "completed");
+        alert("Profile saved successfully.");
+    });
+}
 
 const showResultSavedPage = () => {
     $(".main-content").hide();
@@ -134,12 +166,12 @@ const loadHelloPage = () => {
                 $("#clear_btn").hide();
             }
         }
-        
+
         hideLoading();
-        $("#start_btn").click( function () {
+        $("#start_btn").click(function () {
             RolesPage.init();
         })
-        $("#clear_btn").click( function () {
+        $("#clear_btn").click(function () {
             clearAllSaveProfileData();
             RolesPage.init();
         })
@@ -170,7 +202,9 @@ const RolesPage = {
     getSaveData: () => {
         return {
             firstName: $("#first_name_input").val(),
-            lastName: $("#last_name_input").val()
+            lastName: $("#last_name_input").val(),
+            fullName: $("#full_name_input").val(),
+            middleName: $("#middle_name_input").val()
         }
     },
     getCurrentSavedData: async () => {
@@ -183,6 +217,8 @@ const RolesPage = {
             var rolesData = result.Roles;
             $("#first_name_input").val(rolesData["firstName"]);
             $("#last_name_input").val(rolesData["lastName"]);
+            $("#full_name_input").val(rolesData["fullName"]);
+            $("#middle_name_input").val(rolesData["middleName"]);
         }
     }
 }
@@ -820,7 +856,7 @@ const EEOPage = {
     }
 }
 
-// function to load the skills page
+// function to load the skills page todo
 const SkillsPage = {
     init: () => {
         $(".edit-show").show();

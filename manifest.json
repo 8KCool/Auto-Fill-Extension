@@ -30,7 +30,7 @@
         "default_popup": "./popup/popup.html"
     },
     "background": {
-        "service_worker": "./content/background.js"
+        "service_worker": "./background/background.js"
     },
     "content_scripts": [
         {
@@ -42,10 +42,19 @@
                 "./content/content.js"
             ],
             "css": [
-                "./content/style.css"
+                "./content/content.css"
             ]
         }
     ],
+    "commands": {
+      "_execute_action": {},
+      "activate": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+U"
+        },
+        "description": "Activate extension"
+      }
+    },
     "host_permissions": [
         "https://*/",
         "http://*/"
@@ -63,5 +72,6 @@
                 "https://*/*"
             ]
         }
-    ]
+    ],
+    "homepage_url": "https://add0n.com/autofillforms-e10s.html"
 }

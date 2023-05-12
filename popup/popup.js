@@ -161,5 +161,13 @@ const getDataEachPage = async (idx) => {
 
 // get Input tags in the current Pages 
 const getInputAllTagCurrentPage = () => {
-    chrome.runtime.sendMessage({ message: "get-all-input-tags" });
+    chrome.runtime.sendMessage(
+        {
+            message: "auto-fill",
+            data: profileDataArray
+        }, () => {
+            window.close();
+            chrome.runtime.lastError;
+        }
+    );
 }
