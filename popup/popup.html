@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="./popup.css">
     <link rel="stylesheet" href="../common/common.css">
     <link rel="stylesheet" href="../plugin/bootstrap.min.css">
-    <script src="../js/jquery-1.8.2.min.js"></script>
     <title>AutoFill</title>
 </head>
 
@@ -26,8 +25,9 @@
             </div>
         </div>
 
-        <div class="row p-3">
-            <p class="p-3 text-justify ft-16 mb-0" id="content_title">Let's simplify the job application process together.
+        <div class="row p-3 main-content">
+            <p class="p-3 text-justify ft-16 mb-0" id="content_title">Let's simplify the job application process
+                together.
                 Create your new profile now and get one step closer to your dream job. </p>
 
             <div class="animation-content w-100 position-relative px-20">
@@ -51,13 +51,38 @@
                 Edit
             </div>
         </div>
+
+
+
+        <div class="loading-bar w-200 mx-auto text-center">
+            <svg data-testid="puff-loader mx-auto" xmlns="http://www.w3.org/2000/svg" width="75" height="75"
+                stroke="currentColor" viewBox="0 0 44 44">
+                <g fill="none" fill-rule="evenodd" stroke-width="2">
+                    <circle cx="22" cy="22" r="1">
+                        <animate attributeName="r" begin="0s" calcMode="spline" dur="1.8s"
+                            keySplines="0.165, 0.84, 0.44, 1" keyTimes="0; 1" repeatCount="indefinite" values="1; 20">
+                        </animate>
+                        <animate attributeName="stroke-opacity" begin="0s" calcMode="spline" dur="1.8s"
+                            keySplines="0.3, 0.61, 0.355, 1" keyTimes="0; 1" repeatCount="indefinite" values="1; 0">
+                        </animate>
+                    </circle>
+                    <circle cx="22" cy="22" r="1">
+                        <animate attributeName="r" begin="-0.9s" calcMode="spline" dur="1.8s"
+                            keySplines="0.165, 0.84, 0.44, 1" keyTimes="0; 1" repeatCount="indefinite" values="1; 20">
+                        </animate>
+                        <animate attributeName="stroke-opacity" begin="-0.9s" calcMode="spline" dur="1.8s"
+                            keySplines="0.3, 0.61, 0.355, 1" keyTimes="0; 1" repeatCount="indefinite" values="1; 0">
+                        </animate>
+                    </circle>
+                </g>
+            </svg>
+            <h5 id="loading_title">Loading...</h5>
+        </div>
     </div>
 
-    <!-- <div id="loading">
-        <img src="./loadingbar.gif" width="100px" />
-    </div> -->
     <script src="../plugin/jquery-3.6.0.min.js"></script>
     <script src="./popup.js"></script>
+    <script src="../common/common.js"></script>
 </body>
 
 </html>

@@ -648,7 +648,7 @@ const ExperiencePage = {
                             placeholder="Position Title" />
                         </div>
                         <div class="col-sm-6 mb-3">
-                            <h5 class="color-gray">Experience Title</h5>
+                            <h5 class="color-gray">Experience Type</h5>
                             <select class="form-control custom-select mt-2" id="experience_type_${idx}">
                             <option value="Internship" selected>Internship</option>
                             <option value="Full-Time">Full-Time</option>

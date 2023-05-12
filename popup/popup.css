@@ -3,6 +3,7 @@
      width: 300px;
      font-family: "Euclid Circular B", Roboto, Helvetica, Arial, sans-serif;
      background-color: white;
+     min-height: 400px;
  }
 
 .popup-content {

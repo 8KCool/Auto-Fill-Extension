@@ -1,8 +1,13 @@
 
 // custom loading bar
-const showLoading = () => {
+const showLoading = (text) => {
     $(".main-content").hide();
     $(".loading-bar").show();
+    if(text != "") {
+        $("#loading_title").text(text);
+    } else {
+        $("#loading_title").text("Loading...");
+    }
 }
 
 const hideLoading = () => {
