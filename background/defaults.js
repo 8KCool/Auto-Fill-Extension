@@ -80,7 +80,7 @@ self.defaults.rules = {
     'field-rule': '(?:state)|(?:prov)|(?:region)',
     'site-rule': '(?:)'
   },
-  'zip-code': {
+  'postal_code': {
     'field-rule': '(?:zip[-_])|(?:[-_]zip)|(?:zip)|(?:post[\\w\\s]*code)',
     'site-rule': '(?:)'
   },
@@ -111,7 +111,7 @@ self.defaults.rules = {
     'field-rule': '(?:occupation)|(?:job)',
     'site-rule': '(?:)'
   },
-  'phone': {
+  'phone_number': {
     'field-rule': '(?:phone)|(?:tel)|(?:phon)',
     'site-rule': '(?:)'
   },
@@ -121,15 +121,15 @@ self.defaults.rules = {
     'site-rule': '(?:)'
   },
 
-  'first-name': {
+  'firstName': {
     'field-rule': '(?:fname)|(?:first[\\w\\s]*name)|(?:frst[\\w\\s]*name)|(?:name[\\w\\s]*first)',
     'site-rule': '(?:)'
   },
-  'middle-name': {
+  'middleName': {
     'field-rule': '(?:middle[\\w\\s]*name)|(?:name[\\w\\s]*middle)|(?:middle[\\w\\s]*i)',
     'site-rule': '(?:)'
   },
-  'last-name': {
+  'lastName': {
     'field-rule': '(?:lname)|(?:last[\\w\\s]*name)|(?:name[\\w\\s]*last)',
     'site-rule': '(?:)'
   },

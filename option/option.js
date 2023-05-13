@@ -1,6 +1,6 @@
 
 var currentPageIndex = 0;
-var pageName = ["Roles", "Personal", "Education", "Experience", "Workauth", "EEO", "Skills", "Resume"];
+var pageName = ["Roles", "Personal", "Education", "Experience", "Workauth", "Skills", "Resume"];
 
 
 $(document).ready(() => {
@@ -45,7 +45,7 @@ const saveProfileDataFinal = async () => {
         Education: 'Roles',
         Experience: 'Experience',
         Workauth: 'Workauth',
-        EEO: 'EEO',
+        // EEO: 'EEO',
         Skills: 'Skills',
         Resume: 'Resume',
     });
@@ -88,9 +88,9 @@ const saveCurrentData = (callback) => {
         case 2: option = { "Education": savedData }; break;
         case 3: option = { "Experience": savedData }; break;
         case 4: option = { "Workauth": savedData }; break;
-        case 5: option = { "EEO": savedData }; break;
-        case 6: option = { "Skills": savedData }; break;
-        case 7: option = { "Resume": savedData }; break;
+        // case 5: option = { "EEO": savedData }; break;
+        case 5: option = { "Skills": savedData }; break;
+        case 6: option = { "Resume": savedData }; break;
     }
     chrome.storage.local.set(option, () => {
         if (chrome.runtime.lastError) {
@@ -271,8 +271,8 @@ const PersonalPage = {
             state: $("#state").val(),
             postal_code: $("#postal_code").val(),
             phone_number: $("#phone_number").val(),
-            phone_code: $("#phone_code").val(),
-            phone_extension: $("#phone_extension").val(),
+            birthday: $("#birthday").val(),
+            located: $("#located").val(),
             country: $(".country-select").attr("data-value")
         }
     },
@@ -290,8 +290,8 @@ const PersonalPage = {
             $("#state").val(personData['state']);
             $("#postal_code").val(personData['postal_code']);
             $("#phone_number").val(personData['phone_number']);
-            $("#phone_code").val(personData['phone_code']);
-            $("#phone_extension").val(personData['phone_extension']);
+            $("#birthday").val(personData['birthday']);
+            $("#located").val(personData['located']);
 
             customSelect.setSelect("country-select", personData['country']);
         }
@@ -808,53 +808,53 @@ const WorkauthPage = {
 }
 
 // function to load the EEO page
-const EEOPage = {
-    init: () => {
-        $(".edit-show").show();
-        showLoading();
-        $("#edit_content").load('./pages/EEO/index.html', async () => {
-            updatePieChart(0);
-            customRadioButton.init("disability_radio");
-            customRadioButton.init("vertain_radio");
-            customRadioButton.init("lgbtq_radio");
-            customRadioButton.init("gender_radio");
-            await EEOPage.getCurrentSavedData();
-            checkValidatePage(false);
-            refreshTabButton();
-            hideLoading();
-            $(".validate-input-form").change(function () {
-                checkValidatePage(false);
-            })
-        });
-    },
-    checkValidate: () => {
-        return true;
-    },
-    getSaveData: () => {
-        return {
-            disability: customRadioButton.getValue("disability_radio"),
-            vertain: customRadioButton.getValue("vertain_radio"),
-            lgbtq: customRadioButton.getValue("lgbtq_radio"),
-            gender: customRadioButton.getValue("gender_radio"),
-            ethnicity: $("#ethnicity").val(),
-        }
-    },
-    getCurrentSavedData: async () => {
-        const key = pageName[currentPageIndex];
-        const result = await chrome.storage.local.get(key);
-        if (chrome.runtime.lastError) {
-            console.log('Error getting');
-        }
-        else if (result && result.EEO) {
-            var eeoData = result.EEO;
-            customRadioButton.setValue("disability_radio", eeoData['disability']);
-            customRadioButton.setValue("vertain_radio", eeoData['vertain']);
-            customRadioButton.setValue("lgbtq_radio", eeoData['lgbtq']);
-            customRadioButton.setValue("gender_radio", eeoData['gender']);
-            $("#ethnicity").val(eeoData['ethnicity']);
-        }
-    }
-}
+// const EEOPage = {
+//     init: () => {
+//         $(".edit-show").show();
+//         showLoading();
+//         $("#edit_content").load('./pages/EEO/index.html', async () => {
+//             updatePieChart(0);
+//             customRadioButton.init("disability_radio");
+//             customRadioButton.init("vertain_radio");
+//             customRadioButton.init("lgbtq_radio");
+//             customRadioButton.init("gender_radio");
+//             await EEOPage.getCurrentSavedData();
+//             checkValidatePage(false);
+//             refreshTabButton();
+//             hideLoading();
+//             $(".validate-input-form").change(function () {
+//                 checkValidatePage(false);
+//             })
+//         });
+//     },
+//     checkValidate: () => {
+//         return true;
+//     },
+//     getSaveData: () => {
+//         return {
+//             disability: customRadioButton.getValue("disability_radio"),
+//             vertain: customRadioButton.getValue("vertain_radio"),
+//             lgbtq: customRadioButton.getValue("lgbtq_radio"),
+//             gender: customRadioButton.getValue("gender_radio"),
+//             ethnicity: $("#ethnicity").val(),
+//         }
+//     },
+//     getCurrentSavedData: async () => {
+//         const key = pageName[currentPageIndex];
+//         const result = await chrome.storage.local.get(key);
+//         if (chrome.runtime.lastError) {
+//             console.log('Error getting');
+//         }
+//         else if (result && result.EEO) {
+//             var eeoData = result.EEO;
+//             customRadioButton.setValue("disability_radio", eeoData['disability']);
+//             customRadioButton.setValue("vertain_radio", eeoData['vertain']);
+//             customRadioButton.setValue("lgbtq_radio", eeoData['lgbtq']);
+//             customRadioButton.setValue("gender_radio", eeoData['gender']);
+//             $("#ethnicity").val(eeoData['ethnicity']);
+//         }
+//     }
+// }
 
 // function to load the skills page todo
 const SkillsPage = {
@@ -909,13 +909,13 @@ const SkillsPage = {
         if (chrome.runtime.lastError) {
             console.log('Error getting');
         }
-        else if (result && result.EEO) {
-            var eeoData = result.EEO;
-            customRadioButton.setValue("disability_radio", eeoData['disability']);
-            customRadioButton.setValue("vertain_radio", eeoData['vertain']);
-            customRadioButton.setValue("lgbtq_radio", eeoData['lgbtq']);
-            customRadioButton.setValue("gender_radio", eeoData['gender']);
-            $("#ethnicity").val(eeoData['ethnicity']);
+        else if (result && result.Skills) {
+            var skillsData = result.Skills;
+            // customRadioButton.setValue("disability_radio", skillsData['disability']);
+            // customRadioButton.setValue("vertain_radio", skillsData['vertain']);
+            // customRadioButton.setValue("lgbtq_radio", skillsData['lgbtq']);
+            // customRadioButton.setValue("gender_radio", skillsData['gender']);
+            // $("#ethnicity").val(skillsData['ethnicity']);
         }
     }
 }
@@ -1077,4 +1077,4 @@ const refreshTabButton = () => {
     $("#main-tab-button-" + currentPageIndex).addClass("active");
 }
 
-var pageList = [RolesPage, PersonalPage, EducationPage, ExperiencePage, WorkauthPage, EEOPage, SkillsPage, ResumePage];
+var pageList = [RolesPage, PersonalPage, EducationPage, ExperiencePage, WorkauthPage, SkillsPage, ResumePage];

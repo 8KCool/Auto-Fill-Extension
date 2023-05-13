@@ -4,7 +4,7 @@
  * 07/05/2023
  */
 
-var pageName = ["Roles", "Personal", "Education", "Experience", "Workauth", "EEO", "Skills", "Resume"];
+var pageName = ["Roles", "Personal", "Education", "Experience", "Workauth", "Skills", "Resume"];
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -128,15 +128,15 @@ const getDataEachPage = async (idx) => {
                     profileDataArray[key] = {};
                 }
             }
-            case "EEO": {
-                if (result.EEO) {
-                    var EEO = result.EEO;
-                    profileDataArray[key] = EEO;
-                    break;
-                } else {
-                    profileDataArray[key] = {};
-                }
-            }
+            // case "EEO": {
+            //     if (result.EEO) {
+            //         var EEO = result.EEO;
+            //         profileDataArray[key] = EEO;
+            //         break;
+            //     } else {
+            //         profileDataArray[key] = {};
+            //     }
+            // }
             case "Skills": {
                 if (result.Skills) {
                     var Skills = result.Skills;
