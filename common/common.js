@@ -3,7 +3,7 @@
 const showLoading = (text) => {
     $(".main-content").hide();
     $(".loading-bar").show();
-    if(text != "") {
+    if (text != "") {
         $("#loading_title").text(text);
     } else {
         $("#loading_title").text("Loading...");
@@ -61,7 +61,8 @@ const customSelect = {
                 document.querySelector(`.${tag}`).dataset.value = customSelect.value;
                 selected.innerHTML = o.querySelector("label").innerHTML;
                 optionsContainer.classList.remove("active");
-                // callback();
+                if (callback)
+                    callback();
             });
         });
 

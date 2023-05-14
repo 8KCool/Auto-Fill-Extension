@@ -607,7 +607,6 @@ const ExperiencePage = {
         var experience_array = [];
         var count = $(".experience-content").length;
         for (var i = 1; i <= count; i++) {
-            alert($(`#work_currently_${i}`).attr("value"));
             experience_array.push({
                 experience_company: $(`#experience_company_${i}`).val(),
                 experience_location: $(`#experience_location_${i}`).val(),
@@ -783,7 +782,7 @@ const ExperiencePage = {
                 $("#experience_start_year_" + i).val(dataArray[i - 1].experience_start_year);
                 $("#experience_end_month_" + i).val(dataArray[i - 1].experience_end_month);
                 $("#experience_end_year_" + i).val(dataArray[i - 1].experience_end_year);
-                if(parseInt(dataArray[i-1].experience_work_currently_state) == 1) {
+                if (parseInt(dataArray[i - 1].experience_work_currently_state) == 1) {
                     $("#work_currently_" + i).prop("checked", true);
                     $(`#experience_end_month_${i}`).prop('disabled', true);
                     $(`#experience_end_year_${i}`).prop('disabled', true);
@@ -898,8 +897,8 @@ const SkillsPage = {
             updatePieChart(0);
             checkValidatePage(false);
             refreshTabButton();
-            // await SkillsPage.initSkillsData();
-            // customSelect.init("skills-select"); 
+            await SkillsPage.initSkillSelectData();
+            customSelect.init("skills-select", SkillsPage.clickSkillsSelectEventListner); 
             hideLoading();
             $(".validate-input-form").change(function () {
                 checkValidatePage(false);
@@ -910,21 +909,30 @@ const SkillsPage = {
         return true;
     },
     // get all country names and set data
-    initSkillsData: async () => {
-        await $.getJSON("https://trial.mobiscroll.com/content/countries.json", function (resp) {
-            // var countries = [];
-            for (var i = 0; i < resp.length; ++i) {
-                var country = resp[i];
-                // countries.push({ text: country.text, value: country.value });
-                $(".skills-select .options-container").append(
-                    `<div class="option">
-                        <img class="mr-2" width="24" height="16" src="https://img.mobiscroll.com/demos/flags/${country.value}.png" />
-                        <input type="radio" class="radio mt-1" data-id="${country.text.toLowerCase()}" name="category" />
-                        <label for="${country.text.toLowerCase()}">${country.text}</label>
-                    </div>`
-                );
+    initSkillSelectData: async () => {
+        await $.getJSON("./assets/json/skills.json", function (resp) {
+            if (resp && resp.items) {
+                var items = resp.items;
+                // var countries = [];
+                for (var i = 0; i < items.length; ++i) {
+                    var skill = items[i];
+                    // countries.push({ text: country.text, value: country.value });
+                    $(".skills-select .options-container").append(
+                        `<div class="option">
+                            <input type="radio" value="${skill.name}" class="radio mt-1" data-id="${skill.id.toLowerCase()}" id="${skill.id.toLowerCase()}" name="category" />
+                            <label for="${skill.name.toLowerCase()}">${skill.name}</label>
+                        </div>`
+                    );
+                }
+
             }
         });
+    },
+    clickSkillsSelectEventListner: () => {
+        let id = $(".skills-select").attr("data-value");
+        // alert($("#" + id).attr("value"));
+        let value = $("#" + id).attr("value");
+        $("#skills-list").append(`<input type="button" class="btn btn-info rounded ft-24 mb-2 mr-2 skill-item" value="${value}" />`)
     },
     // todo
     getSaveData: () => {
