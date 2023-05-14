@@ -50,11 +50,11 @@ const saveProfileDataFinal = async () => {
         Resume: 'Resume',
     });
 
-    for(const datakey in data) {
-        
-        if(data[datakey]) {
+    for (const datakey in data) {
+
+        if (data[datakey]) {
             let eachData = data[datakey];
-            for(const key in eachData) {
+            for (const key in eachData) {
                 console.log(`${key}: ${eachData[key]}`);
                 profileData[key] = eachData[key];
             }
@@ -201,10 +201,10 @@ const RolesPage = {
     },
     getSaveData: () => {
         return {
-            firstName: $("#first_name_input").val(),
-            lastName: $("#last_name_input").val(),
-            fullName: $("#full_name_input").val(),
-            middleName: $("#middle_name_input").val()
+            firstName: $("#first_name").val(),
+            lastName: $("#last_name").val(),
+            fullName: $("#full_name").val(),
+            middleName: $("#middle_name").val()
         }
     },
     getCurrentSavedData: async () => {
@@ -215,10 +215,10 @@ const RolesPage = {
         }
         else if (result && result.Roles) {
             var rolesData = result.Roles;
-            $("#first_name_input").val(rolesData["firstName"]);
-            $("#last_name_input").val(rolesData["lastName"]);
-            $("#full_name_input").val(rolesData["fullName"]);
-            $("#middle_name_input").val(rolesData["middleName"]);
+            $("#first_name").val(rolesData["firstName"]);
+            $("#last_name").val(rolesData["lastName"]);
+            $("#full_name").val(rolesData["fullName"]);
+            $("#middle_name").val(rolesData["middleName"]);
         }
     }
 }
@@ -266,7 +266,7 @@ const PersonalPage = {
     getSaveData: () => {
         return {
             email: $("#email").val(),
-            address_line: $("#address_line").val(),
+            address: $("#address").val(),
             city: $("#city").val(),
             state: $("#state").val(),
             postal_code: $("#postal_code").val(),
@@ -285,7 +285,7 @@ const PersonalPage = {
         else if (result && result.Personal) {
             var personData = result.Personal;
             $("#email").val(personData['email']);
-            $("#address_line").val(personData['address_line']);
+            $("#address").val(personData['address']);
             $("#city").val(personData['city']);
             $("#state").val(personData['state']);
             $("#postal_code").val(personData['postal_code']);
@@ -360,7 +360,7 @@ const EducationPage = {
         }
     },
     renderEducationField: (educationData) => {
-        var experience_count = -1;
+        var education_count = -1;
         if (educationData['education_state'] >= 0) {
             education_count = parseInt(educationData['education_state']);
         }
@@ -382,13 +382,13 @@ const EducationPage = {
                     <h3>Education ${idx}</h3>
                 </div>
                 <div class="row w-100 col-sm-12 mb-3">
-                    <h5 class="color-gray">School Name</h5>
+                    <h6 class="color-gray">School Name</h6>
                     <input type="text" id="education_school_name_${idx}" class="form-control custom-input mt-2 validate-input-form"
                     placeholder="School Name" />
                 </div>
                 <div class="row w-100">
                     <div class="col-sm-6 mb-3">
-                    <h5 class="color-gray">Major</h5>
+                    <h6 class="color-gray">Major</h6>
                     <select class="form-control custom-select mt-2" id="education_major_${idx}">
                         <option value="0" selected>Accounting</option>
                         <option value="1">Actuarial Science</option>
@@ -480,7 +480,7 @@ const EducationPage = {
                     </select>
                     </div>
                     <div class="col-sm-4 mb-3">
-                    <h5 class="color-gray">Degree Type</h5>
+                    <h6 class="color-gray">Degree Type</h6>
                     <select class="form-control custom-select mt-2" id="education_degree_type_${idx}">
                         <option value="0">Bachelor's</option>
                         <option value="1">Master's</option>
@@ -491,13 +491,13 @@ const EducationPage = {
                     </select>
                     </div>
                     <div class="col-sm-2 mb-3">
-                    <h5 class="color-gray">GPA</h5>
+                    <h6 class="color-gray">GPA</h6>
                     <input type="number" class="form-control custom-input mt-2" id="education_gpa_${idx}" placeholder="GPA" />
                     </div>
                 </div>
                 <div class="row w-100 mb-6">
                     <div class="col-sm-4 mb-3">
-                    <h5 class="color-gray">Start Month</h5>
+                    <h6 class="color-gray">Start Month</h6>
                     <select class="form-control custom-select mt-2" id="education_start_month_${idx}">
                         <option value="January">January</option>
                         <option value="February">February</option>
@@ -514,11 +514,11 @@ const EducationPage = {
                     </select>
                     </div>
                     <div class="col-sm-2 mb-3">
-                    <h5 class="color-gray">Start Year</h5>
+                    <h6 class="color-gray">Start Year</h6>
                     <select class="form-control custom-select mt-2 select-year" id="education_start_year_${idx}"></select>
                     </div>
                     <div class="col-sm-4 mb-3">
-                    <h5 class="color-gray">End Month</h5>
+                    <h6 class="color-gray">End Month</h6>
                     <select class="form-control custom-select mt-2" id="education_end_month_${idx}">
                         <option value="January">January</option>
                         <option value="February">February</option>
@@ -535,7 +535,7 @@ const EducationPage = {
                     </select>
                     </div>
                     <div class="col-sm-2 mb-3">
-                    <h5 class="color-gray">End Year</h5>
+                    <h6 class="color-gray">End Year</h6>
                     <select class="form-control custom-select mt-2 select-year" id="education_end_year_${idx}"></select>
                     </div>
                 </div>`;
@@ -570,6 +570,7 @@ const ExperiencePage = {
             await ExperiencePage.getCurrentSavedData();
             refreshTabButton();
             initSelectYear();
+            ExperiencePage.initSetFlagCurrentlywork();
             checkValidatePage(false);
             hideLoading();
 
@@ -586,6 +587,7 @@ const ExperiencePage = {
                     $("#experience_panel").html(ExperiencePage.makeRenderTemplate(1));
                 }
                 initSelectYear();
+                ExperiencePage.initSetFlagCurrentlywork();
                 checkValidatePage(false);
             });
 
@@ -593,6 +595,7 @@ const ExperiencePage = {
                 var idx = $(".experience-content").length + 1;
                 $("#experience_panel").append(ExperiencePage.makeRenderTemplate(idx));
                 initSelectYear();
+                ExperiencePage.initSetFlagCurrentlywork();
                 checkValidatePage(false);
             });
         });
@@ -604,6 +607,7 @@ const ExperiencePage = {
         var experience_array = [];
         var count = $(".experience-content").length;
         for (var i = 1; i <= count; i++) {
+            alert($(`#work_currently_${i}`).attr("value"));
             experience_array.push({
                 experience_company: $(`#experience_company_${i}`).val(),
                 experience_location: $(`#experience_location_${i}`).val(),
@@ -613,6 +617,7 @@ const ExperiencePage = {
                 experience_start_year: $(`#experience_start_year_${i}`).val(),
                 experience_end_month: $(`#experience_end_month_${i}`).val(),
                 experience_end_year: $(`#experience_end_year_${i}`).val(),
+                experience_work_currently_state: $(`#work_currently_${i}`).attr("value"),
                 experience_description: $(`#experience_description_${i}`).val(),
             });
         }
@@ -630,11 +635,27 @@ const ExperiencePage = {
         else if (result && result.Experience) {  // if there is saved any data
             var experienceData = result.Experience;
             ExperiencePage.renderExperienceField(experienceData);
-            initSelectYear();
             ExperiencePage.setRenderedFieldData(experienceData);
         } else { // if there is no saved
             $("#experience_panel").append(ExperiencePage.makeRenderTemplate(1));
         }
+    },
+
+    initSetFlagCurrentlywork: () => {
+        $(".work-currently").change(function () {
+            let id = parseInt($(this).attr("data"));
+            if (id >= 0) {
+                if (this.checked) {
+                    $(`#experience_end_month_${id}`).prop('disabled', true);
+                    $(`#experience_end_year_${id}`).prop('disabled', true);
+                    $(this).attr("value", "1");
+                } else {
+                    $(`#experience_end_month_${id}`).prop('disabled', false);
+                    $(`#experience_end_year_${id}`).prop('disabled', false);
+                    $(this).attr("value", "0");
+                }
+            }
+        });
     },
 
     renderExperienceField: (experienceData) => {
@@ -667,24 +688,24 @@ const ExperiencePage = {
                         </div>
                         <div class="row w-100">
                         <div class="col-sm-6 mb-3">
-                            <h5 class="color-gray">Company</h5>
+                            <h6 class="color-gray">Company</h6>
                             <input type="text" id="experience_company_${idx}" class="form-control custom-input mt-2 validate-input-form"
                             placeholder="Company" />
                         </div>
                         <div class="col-sm-6 mb-3">
-                            <h5 class="color-gray">Location</h5>
+                            <h6 class="color-gray">Location</h6>
                             <input type="text" id="experience_location_${idx}" class="form-control custom-input mt-2 validate-input-form"
                             placeholder="Location" />
                         </div>
                         </div>
                         <div class="row w-100">
                         <div class="col-sm-6 mb-3">
-                            <h5 class="color-gray">Position Title</h5>
+                            <h6 class="color-gray">Position Title</h6>
                             <input type="text" id="experience_position_title_${idx}" class="form-control custom-input mt-2 validate-input-form"
                             placeholder="Position Title" />
                         </div>
                         <div class="col-sm-6 mb-3">
-                            <h5 class="color-gray">Experience Type</h5>
+                            <h6 class="color-gray">Experience Type</h6>
                             <select class="form-control custom-select mt-2" id="experience_type_${idx}">
                             <option value="Internship" selected>Internship</option>
                             <option value="Full-Time">Full-Time</option>
@@ -695,7 +716,7 @@ const ExperiencePage = {
     
                         <div class="row w-100 mb-3">
                         <div class="col-sm-4 mb-3">
-                            <h5 class="color-gray">Start Month</h5>
+                            <h6 class="color-gray">Start Month</h6>
                             <select class="form-control custom-select mt-2" id="experience_start_month_${idx}">
                             <option value="January">January</option>
                             <option value="February">February</option>
@@ -712,11 +733,11 @@ const ExperiencePage = {
                             </select>
                         </div>
                         <div class="col-sm-2 mb-3">
-                            <h5 class="color-gray">Start Year</h5>
+                            <h6 class="color-gray">Start Year</h6>
                             <select class="form-control custom-select mt-2 select-year" id="experience_start_year_${idx}"></select>
                         </div>
                         <div class="col-sm-4 mb-3">
-                            <h5 class="color-gray">End Month</h5>
+                            <h6 class="color-gray">End Month</h6>
                             <select class="form-control custom-select mt-2" id="experience_end_month_${idx}">
                             <option value="January">January</option>
                             <option value="February">February</option>
@@ -733,15 +754,17 @@ const ExperiencePage = {
                             </select>
                         </div>
                         <div class="col-sm-2 mb-3">
-                            <h5 class="color-gray">End Year</h5>
+                            <h6 class="color-gray">End Year</h6>
                             <select class="form-control custom-select mt-2 select-year" id="experience_end_year_${idx}"></select>
                         </div>
-                        </div>
-                        <div class="row w-100 mb-6">
                         <div class="col-sm-12 mb-3">
-                            <h5 class="color-gray">Description</h5>
-                            <input type="text" id="experience_description_${idx}" class="form-control custom-input mt-2 validate-input-form"
-                            placeholder="A couple sentences about your role" />
+                            <input type="checkbox" class="w-5 mr-2 work-currently" name="check-box" data=${idx} id="work_currently_${idx}" /> <span
+                            class="text-base font-medium text-gray-700">I currently work here</span>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <h6 class="color-gray">Description</h6>
+                            <textarea id="experience_description_${idx}" class="form-control custom-input mt-2 validate-input-form"
+                            placeholder="A couple sentences about your role" ></textarea>
                         </div>
                     </div>`;
         return html;
@@ -760,6 +783,16 @@ const ExperiencePage = {
                 $("#experience_start_year_" + i).val(dataArray[i - 1].experience_start_year);
                 $("#experience_end_month_" + i).val(dataArray[i - 1].experience_end_month);
                 $("#experience_end_year_" + i).val(dataArray[i - 1].experience_end_year);
+                if(parseInt(dataArray[i-1].experience_work_currently_state) == 1) {
+                    $("#work_currently_" + i).prop("checked", true);
+                    $(`#experience_end_month_${i}`).prop('disabled', true);
+                    $(`#experience_end_year_${i}`).prop('disabled', true);
+                } else {
+                    $("#work_currently_" + i).prop("checked", false);
+                    $(`#experience_end_month_${i}`).prop('disabled', false);
+                    $(`#experience_end_year_${i}`).prop('disabled', false);
+                }
+
                 $("#experience_description_" + i).val(dataArray[i - 1].experience_description);
             }
         }
