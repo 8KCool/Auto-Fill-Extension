@@ -998,12 +998,6 @@ const SkillsPage = {
                     $(this.remove());
                 })
             }
-
-            // customRadioButton.setValue("disability_radio", skillsData['disability']);
-            // customRadioButton.setValue("vertain_radio", skillsData['vertain']);
-            // customRadioButton.setValue("lgbtq_radio", skillsData['lgbtq']);
-            // customRadioButton.setValue("gender_radio", skillsData['gender']);
-            // $("#ethnicity").val(skillsData['ethnicity']);
         }
     }
 }
