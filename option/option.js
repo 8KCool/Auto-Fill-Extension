@@ -895,14 +895,25 @@ const SkillsPage = {
         showLoading();
         $("#edit_content").load('./pages/skills/index.html', async () => {
             updatePieChart(0);
+            await SkillsPage.getCurrentSavedData();
             checkValidatePage(false);
             refreshTabButton();
             await SkillsPage.initSkillSelectData();
-            customSelect.init("skills-select", SkillsPage.clickSkillsSelectEventListner); 
+            customSelect.init("skills-select", SkillsPage.clickSkillsSelectEventListner);
             hideLoading();
             $(".validate-input-form").change(function () {
                 checkValidatePage(false);
             })
+
+            $(".item-original").click(function () {
+                if (!$(this).hasClass("btn-info")) {
+                    $(this).addClass("btn-info");
+                    $(this).removeClass("btn-no");
+                } else {
+                    $(this).addClass("btn-no");
+                    $(this).removeClass("btn-info");
+                }
+            });
         });
     },
     checkValidate: () => {
@@ -930,18 +941,30 @@ const SkillsPage = {
     },
     clickSkillsSelectEventListner: () => {
         let id = $(".skills-select").attr("data-value");
-        // alert($("#" + id).attr("value"));
         let value = $("#" + id).attr("value");
-        $("#skills-list").append(`<input type="button" class="btn btn-info rounded ft-24 mb-2 mr-2 skill-item" value="${value}" />`)
+        // let originalValues = $("#skills-list .item-original");
+        // originalValues.each((index, element) => {
+        //     if ($(element).attr("value") == value) {
+
+        //     }
+        // });
+
+        $("#skills-list").append(`<input type="button" class="btn btn-info rounded ft-24 mb-2 mr-2 skills-item" value="${value}" />`);
+        $(".skills-item").click(function () {
+            $(this.remove());
+        })
     },
     // todo
     getSaveData: () => {
+        let returnArray = [];
+        let selectedBtns = $("#skills-list .btn-info");
+        selectedBtns.each((index, element) => {
+            value = $(element).attr("value");
+            returnArray.push(value);
+        });
+        debugger;
         return {
-            disability: customRadioButton.getValue("disability_radio"),
-            vertain: customRadioButton.getValue("vertain_radio"),
-            lgbtq: customRadioButton.getValue("lgbtq_radio"),
-            gender: customRadioButton.getValue("gender_radio"),
-            ethnicity: $("#ethnicity").val(),
+            skills: returnArray
         }
     },
     getCurrentSavedData: async () => {
@@ -951,7 +974,31 @@ const SkillsPage = {
             console.log('Error getting');
         }
         else if (result && result.Skills) {
+            debugger;
             var skillsData = result.Skills;
+            var skillsArray = skillsData['skills'];
+            let originalList = $("#skills-list .item-original");
+            
+            originalList.each((index, element) => {
+                let value = $(element).attr("value");
+                let idx = skillsArray.indexOf(value);
+                if(idx != -1) {
+                    $(element).addClass("btn-info");
+                    $(element).removeClass("btn-no");
+                    skillsArray.splice(idx, 1);
+                } else {
+                    $(element).addClass("btn-no");
+                    $(element).removeClass("btn-info");
+                }
+            });
+
+            for(var i = 0; i < skillsArray.length; i ++) {
+                $("#skills-list").append(`<input type="button" class="btn btn-info rounded ft-24 mb-2 mr-2 skills-item" value="${skillsArray[i]}" />`)
+                $(".skills-item").click(function () {
+                    $(this.remove());
+                })
+            }
+
             // customRadioButton.setValue("disability_radio", skillsData['disability']);
             // customRadioButton.setValue("vertain_radio", skillsData['vertain']);
             // customRadioButton.setValue("lgbtq_radio", skillsData['lgbtq']);
