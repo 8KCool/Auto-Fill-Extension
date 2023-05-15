@@ -121,12 +121,12 @@ self.defaults.rules = {
 
   // !
   'city': {
-    'field-rule': 'city',
+    'field-rule': '([\\w\\s]*city)',
     'site-rule': '(?:)'
   },
   // !
   'country': {
-    'field-rule': 'country',
+    'field-rule': '([\\w\\s]*country)',
     'site-rule': '(?:)'
   },
   'full-street': {
