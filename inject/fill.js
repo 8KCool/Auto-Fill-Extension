@@ -139,12 +139,13 @@ chrome.storage.local.get({
     }, response => {
       utils.getProfile(prefs.current, profile => {
         // preparing rule list
+        debugger;
         const rules = Object.keys(prefs.rules).filter(name => {// filter rules that match this domain
           const r = new RegExp(prefs.rules[name]['site-rule'], 'i');
           return r.test(response);
         }).reverse() // prioritizing user-defined rules
           .map(name => Object.assign(prefs.rules[name], {name}));
-
+        debugger;
         // inputs find rules part 1
         inputs.forEach(input => {
           for (const rule of rules) {
@@ -159,11 +160,15 @@ chrome.storage.local.get({
             }
             else {
               const r = (new RegExp(exp, 'i'));
-              const name = utils.id(input);
-              // what if we have multiple matches
-              if (r.test(name)) {
-                console.info('found stage 1/2', exp, input);
-                append(input, rule.name, r, 0.5);
+              const names = utils.id(input);
+              for(var i =0; i < names.length; i ++) {
+                var name = names[i];
+                // what if we have multiple matches
+                if (r.test(name)) {
+                  console.info('found stage 1/2', exp, input);
+                  append(input, rule.name, r, 0.5);
+                  break;
+                }
               }
             }
           }

@@ -63,7 +63,15 @@
 
 
   utils.id = e => {
-    return e.name || e.id || e.placeholder.replace(/\s/g, '_');
+    var result = "";
+    for (var att, i = 0, atts = e.attributes, n = atts.length; i < n; i++) {
+      att = atts[i];
+      // nodes.push(att.nodeName);
+      // values.push(att.nodeValue.replace(/\s/g, '_'));
+      if(att.nodeName.includes("id"))
+      result ||= att.nodeValue.replace(/\s/g, '_');
+    }
+    return result || e.name || e.id || e.placeholder.replace(/\s/g, '_');
   };
   utils.inputs = (target, inputs, types) => {
     for (const e of target.querySelectorAll('[name]')) {

@@ -1,0 +1,45 @@
+{
+    "total": 238,
+    "items": [
+        {
+            "name": "A Philips Employee Referred me",
+            "description": null,
+            "id": "answer1"
+        },
+        {
+            "name": "A Recruiter contacted me, I was not actively looking for a job",
+            "description": null,
+            "id": "answer2"
+        },
+        {
+            "name": "Currently Philips Coteingent Worker",
+            "description": null,
+            "id": "answer3"
+        },
+        {
+            "name": "Glassdoor",
+            "description": null,
+            "id": "answer4"
+        },
+        {
+            "name": "LinkedIn, Monster, Indeed or other Job Board",
+            "description": null,
+            "id": "answer5"
+        },
+        {
+            "name": "Social Networks",
+            "description": null,
+            "id": "answer6"
+        },
+        {
+            "name": "Trade Show / Career Fair / Professional Event",
+            "description": null,
+            "id": "answer7"
+        },
+        {
+            "name": "University / College recruiting",
+            "description": null,
+            "id": "answer8"
+        }
+    ]
+}

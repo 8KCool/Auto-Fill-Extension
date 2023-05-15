@@ -56,7 +56,22 @@ const saveProfileDataFinal = async () => {
             let eachData = data[datakey];
             for (const key in eachData) {
                 console.log(`${key}: ${eachData[key]}`);
-                profileData[key] = eachData[key];
+                if(key == "birthday") {
+                    const d = new Date(eachData[key]);
+                    if(d) {
+                        var date = d.getDate();
+                        profileData["birth-day-type-1"] = date;
+                        profileData["birth-day-type-2"] = date < 10 ? "0" + date: date;
+                        var monthNum = d.getMonth() + 1;
+                        profileData["birth-month-number-type-1"] = monthNum;
+                        profileData["birth-month-number-type-2"] = monthNum < 10 ? "0" + monthNum: monthNum;
+                        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                        profileData["birth-month-string"] = months[monthNum];
+                        profileData["birth-year"] = d.getFullYear();
+                    }
+                } else {
+                    profileData[key] = eachData[key];
+                }
             }
         }
     }
@@ -232,6 +247,8 @@ const PersonalPage = {
             updatePieChart(0);
             await PersonalPage.initCountrySelectData();
             customSelect.init("country-select");
+            await PersonalPage.initHeardSelectData();
+            customSelect.init("heard-select");
             await PersonalPage.getCurrentSavedData();
             refreshTabButton();
             checkValidatePage(false);
@@ -263,6 +280,25 @@ const PersonalPage = {
             }
         });
     },
+
+    // get all country names and set data
+    initHeardSelectData: async () => {
+        await $.getJSON("./assets/json/heardAnswer.json", function (resp) {
+            debugger
+            var heardArray = resp.items;
+            // var countries = [];
+            for (var i = 0; i < heardArray.length; ++i) {
+                var answers = heardArray[i];
+                // countries.push({ text: country.text, value: country.value });
+                $(".heard-select .options-container").append(
+                    `<div class="option">
+                        <input type="radio" class="radio mt-1" data-id="${answers.name}" name="category" />
+                        <label for="${answers.name.toLowerCase()}">${answers.name}</label>
+                    </div>`
+                );
+            }
+        });
+    },
     getSaveData: () => {
         return {
             email: $("#email").val(),
@@ -273,7 +309,8 @@ const PersonalPage = {
             phone_number: $("#phone_number").val(),
             birthday: $("#birthday").val(),
             located: $("#located").val(),
-            country: $(".country-select").attr("data-value")
+            country: $(".country-select").attr("data-value"),
+            heardAnswer: $(".heard-select").attr("data-value")
         }
     },
     getCurrentSavedData: async () => {
@@ -294,6 +331,7 @@ const PersonalPage = {
             $("#located").val(personData['located']);
 
             customSelect.setSelect("country-select", personData['country']);
+            customSelect.setSelect("heard-select", personData['heardAnswer']);
         }
     }
 }
@@ -962,7 +1000,6 @@ const SkillsPage = {
             value = $(element).attr("value");
             returnArray.push(value);
         });
-        debugger;
         return {
             skills: returnArray
         }

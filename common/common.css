@@ -145,6 +145,7 @@
   .select-box-panel .options-container.active ~ .search-box input {
     opacity: 1;
     pointer-events: auto;
+    left: 0;
   }
   /* ====================== end custom select ====================== */
   
