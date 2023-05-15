@@ -145,7 +145,7 @@ chrome.storage.local.get({
           return r.test(response);
         }).reverse() // prioritizing user-defined rules
           .map(name => Object.assign(prefs.rules[name], {name}));
-        debugger;
+        debugger
         // inputs find rules part 1
         inputs.forEach(input => {
           for (const rule of rules) {
@@ -160,15 +160,11 @@ chrome.storage.local.get({
             }
             else {
               const r = (new RegExp(exp, 'i'));
-              const names = utils.id(input);
-              for(var i =0; i < names.length; i ++) {
-                var name = names[i];
-                // what if we have multiple matches
-                if (r.test(name)) {
-                  console.info('found stage 1/2', exp, input);
-                  append(input, rule.name, r, 0.5);
-                  break;
-                }
+              const name = utils.id(input);
+              // what if we have multiple matches
+              if (r.test(name)) {
+                console.info('found stage 1/2', exp, input);
+                append(input, rule.name, r, 0.5);
               }
             }
           }
